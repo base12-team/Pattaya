@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pattaya Run Weekend//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:pattaya-weekend-2027@samantics.space
+DTSTAMP:20261116T150000Z
+DTSTART;VALUE=DATE:20270129
+DTEND;VALUE=DATE:20270201
+SUMMARY:Pattaya Run Weekend
+LOCATION:The Standard\, Pattaya Na Jomtien\, 8/12 Moo 2\, Soi Na Jomtien 10
+DESCRIPTION:Fri: vans 9:30am\, sunset yacht 4-8pm. Sat: 10K at 5:45pm\, Soi 6. Sun: Sanctuary of Truth 2:30pm\, home 4:30pm.
+END:VEVENT
+END:VCALENDAR

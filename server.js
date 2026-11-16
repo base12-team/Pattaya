@@ -16,6 +16,8 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 
 const STATUSES = ['going', 'maybe', 'no', 'none'];
 const ROLES = ['running', 'cheering', ''];
+const VANS = JSON.parse(fs.readFileSync(path.join(__dirname, 'public', 'vans.json'), 'utf8'));
+const VAN_IDS = VANS.vans.map((v) => v.id).concat(['own', '']);
 const MAX_GUESTS = 80;
 
 // ---------- storage ----------
@@ -44,6 +46,7 @@ function clean(g) {
     status: STATUSES.includes(g.status) ? g.status : 'none',
     role: ROLES.includes(g.role) ? g.role : '',
     note: typeof g.note === 'string' ? g.note.replace(/\s+/g, ' ').trim().slice(0, 60) : '',
+    van: VAN_IDS.includes(g.van) ? g.van : '',
     updatedAt: g.updatedAt || null,
   };
 }
@@ -85,7 +88,7 @@ function rateLimited(req) {
 }
 
 // ---------- static files ----------
-const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.ics': 'text/calendar; charset=utf-8', '.json': 'application/json; charset=utf-8' };
 function serveStatic(req, res, pathname) {
   let rel = decodeURIComponent(pathname);
   if (rel.endsWith('/')) rel += 'index.html';
@@ -117,7 +120,11 @@ async function api(req, res, pathname) {
     const g = clean(Object.assign({}, body, { updatedAt: new Date().toISOString() }));
     if (!g) return send(res, 400, { error: 'Please enter your name.' });
     if (!['going', 'maybe', 'no'].includes(body.status)) return send(res, 400, { error: 'Pick going, maybe or can’t make it.' });
-    if (g.status === 'no') g.role = '';
+    if (g.status === 'no') { g.role = ''; g.van = ''; }
+    if (g.van && g.van !== 'own') {
+      const taken = board.guests.filter((x) => x.van === g.van && !sameName(x.name, g.name) && x.status !== 'no').length;
+      if (taken >= VANS.seats) return send(res, 400, { error: 'That van is full. Pick another one.' });
+    }
     const i = board.guests.findIndex((x) => sameName(x.name, g.name));
     if (i >= 0) {
       g.name = board.guests[i].name; // keep original spelling

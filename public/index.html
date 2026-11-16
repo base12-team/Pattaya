@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pattaya Run Weekend · 29–31 Jan 2027</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -139,6 +140,25 @@ button.chip:hover{outline:2px solid var(--green)}
 .editor{position:fixed;inset:0;background:rgba(31,42,36,.4);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
 .editor[hidden]{display:none}
 .editor-card{background:#fff;border-radius:16px;padding:22px;max-width:440px;width:100%}
+
+/* countdown, calendar, notice, vans, map */
+.countdown{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
+.countdown div{background:var(--green);color:#fff;border-radius:12px;padding:10px 16px;min-width:84px;text-align:center}
+.countdown b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.8rem;line-height:1.1}
+.countdown span{font-size:.8rem;opacity:.85}
+.countdown p{flex-basis:100%;margin:2px 0 0}
+.cal{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px}
+.cal .btn{min-height:42px;font-size:.92rem;padding:0 14px}
+.notice{background:var(--green-soft);border:1.5px solid var(--green);border-radius:14px;padding:18px 20px;margin-top:18px}
+.notice h3{color:var(--green)}
+.notice p{margin:6px 0 0}
+.van .seats{font-weight:700;color:var(--green)}
+.van .seats.full{color:#9B3B3B}
+.van ul{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.van li{background:#F3EFE6;border-radius:8px;padding:3px 10px;font-size:.88rem}
+.place{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.pin{flex:0 0 28px;height:28px;border-radius:999px;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.place p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
 footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -149,6 +169,8 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     <span class="brand">Pattaya '27</span>
     <a href="#stay">Hotel</a>
     <a href="#itinerary">Itinerary</a>
+    <a href="#getting-there">Vans</a>
+    <a href="#map">Map</a>
     <a href="#boat">Boat</a>
     <a href="#saturday">Soi 6 &amp; temple</a>
     <a href="#costs">Costs</a>
@@ -168,6 +190,19 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
       <div class="stat"><b>≈ ฿15,600</b><span>all-in per person, sharing</span></div>
       <div class="stat"><b>≈ ฿9,700</b><span>fixed costs per person</span></div>
       <div class="stat"><b>5:45pm Sat</b><span>10K race start</span></div>
+    </div>
+    <div class="countdown" id="countdown" aria-live="off">
+      <div><b id="cdD">–</b><span>days</span></div>
+      <div><b id="cdH">–</b><span>hours</span></div>
+      <div><b id="cdM">–</b><span>minutes</span></div>
+      <p class="small" id="cdLabel">until the vans leave Bangkok, Friday 29 January, 9:30am</p>
+    </div>
+    <div class="cal">
+      <span class="small" style="font-weight:600;color:var(--ink)">Add to your calendar:</span>
+      <a class="btn ghost" href="pattaya-weekend.ics">Weekend (.ics)</a>
+      <a class="btn ghost" href="pattaya-10k.ics">10K race (.ics)</a>
+      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pattaya%20Run%20Weekend&amp;dates=20270129/20270201&amp;location=The%20Standard%2C%20Pattaya%20Na%20Jomtien&amp;details=Sunset%20yacht%20Fri%2C%2010K%20Sat%205%3A45pm%2C%20Soi%206%2C%20Sanctuary%20of%20Truth%20Sun.">Google: weekend</a>
+      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pong%20Mabprachan%2010K&amp;dates=20270130T104500Z/20270130T121500Z&amp;location=Mabprachan%20Reservoir%20Public%20Park%2C%20Pong%2C%20Bang%20Lamung&amp;details=Race%20starts%205%3A45pm.%20Vans%20leave%20The%20Standard%20at%204%3A45pm.">Google: 10K</a>
     </div>
   </div>
 </header>
@@ -226,6 +261,25 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="getting-there">
+  <div class="wrap">
+    <p class="eyebrow">Friday 29 Jan · getting there</p>
+    <h2>The vans</h2>
+    <p class="lede">Three private vans, 10 seats each. Pick yours in the RSVP form below so we know who's where. Pickup points are proposed: Sam will confirm them.</p>
+    <div class="grid g3" style="margin-top:22px" id="vanCards"></div>
+    <p class="small" id="vanReturn" style="margin-top:12px"></p>
+  </div>
+</section>
+
+<section id="map" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Where everything is</p>
+    <h2>Map</h2>
+    <div id="mapEl" role="region" aria-label="Map of the hotel, race start, Soi 6 and the Sanctuary of Truth" style="height:420px;border-radius:14px;border:1px solid var(--line);margin-top:22px;background:#e9e1cf"></div>
+    <div class="grid g2" style="margin-top:14px;gap:10px" id="placeList"></div>
   </div>
 </section>
 
@@ -335,6 +389,10 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
   <div class="wrap">
     <p class="eyebrow">Booking your room</p>
     <h2>Hotel deals</h2>
+    <div class="notice">
+      <h3>Everyone books their own room</h3>
+      <p>Book directly with the hotel or your favourite site, and add your room preference when you book: king or twin beds, who you're sharing with, high or low floor, quiet side. Add "Pattaya Run Weekend group, 29–31 Jan" to the booking note so the hotel can try to put us near each other.</p>
+    </div>
     <div class="grid g2" style="margin-top:22px">
       <div class="card"><div class="body">
         <p class="tag">Amex Platinum</p>
@@ -352,14 +410,38 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
         <p class="tag">Without Amex</p>
         <h3 style="font-size:1.4rem">Other ways to book</h3>
         <ol style="padding-left:20px;color:var(--muted)">
-          <li><strong style="color:var(--ink)">Public rate:</strong> ฿6,330 a night with breakfast on Booking.com or Trip.com, free cancellation until 25 Jan</li>
+          <li><strong style="color:var(--ink)">Public rate:</strong> about ฿5,500–6,300 a night with breakfast on Booking.com or Trip.com (it has moved between checks), free cancellation until 25 Jan</li>
           <li><strong style="color:var(--ink)">World of Hyatt:</strong> The Standard is a Hyatt hotel. Join free to earn points, or redeem a Category 3 award</li>
-          <li><strong style="color:var(--ink)">Group rate:</strong> we'll ask the hotel for a block of about 12 rooms</li>
+          
           <li><strong style="color:var(--ink)">Specials:</strong> the hotel has run packages that bundle breakfast, dinner and drinks</li>
         </ol>
         <p style="margin-top:14px"><a class="btn ghost" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien">Book on hyatt.com</a></p>
       </div></div>
     </div>
+
+    <h3 style="margin-top:36px;font-size:1.5rem">Cheaper options nearby</h3>
+    <p class="lede" style="margin-top:6px">Around half the price of The Standard or less, all in Na Jomtien or Jomtien. Prices are per room per night for 29–31 Jan, checked 16 Nov 2026 on Google Hotels.</p>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><div class="body">
+        <p class="tag">5-star · ≈ ฿2,200/night</p>
+        <h3>Bayphere Hotel Pattaya</h3>
+        <p>Beachfront on Na Jomtien Soi 18, a few minutes' drive from The Standard. Rooftop pool and sky bar. Guest rating 4.3 (2,000+ reviews). Breakfast extra.</p>
+        <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Bayphere%20Hotel%20Pattaya">See prices</a></p>
+      </div></div>
+      <div class="card"><div class="body">
+        <p class="tag">4.5-star · ≈ ฿1,400/night</p>
+        <h3>Saisawan Beach Resort</h3>
+        <p>Beachfront in Na Jomtien, remodelled in 2024. Spa, beach bars and a pool. Guest rating 4.1. Breakfast included.</p>
+        <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Saisawan%20Beach%20Resort%20Na%20Jomtien">See prices</a></p>
+      </div></div>
+      <div class="card"><div class="body">
+        <p class="tag">Aparthotel · ≈ ฿2,300/night</p>
+        <h3>Fifth Pattaya Jomtien</h3>
+        <p>In central Jomtien, about 150m from the beach and closer to Soi 6 and the nightlife, but around 20 minutes' drive from The Standard. Two pools. Guest rating 4.3.</p>
+        <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Fifth%20Pattaya%20Jomtien">See prices</a></p>
+      </div></div>
+    </div>
+    <p class="small" style="margin-top:10px">Staying elsewhere? Still pick a van: these are all on the way, so we can drop you at your hotel.</p>
   </div>
 </section>
 
@@ -394,6 +476,13 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
           <button type="button" data-r="cheering" aria-pressed="false">Cheering</button>
           <button type="button" data-r="" aria-pressed="true">Not sure yet</button>
         </div>
+      </div>
+      <div style="margin-top:16px" id="vanWrap">
+        <label for="rVan">Ride down on Friday</label>
+        <select id="rVan" style="width:100%;max-width:420px;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font:inherit;background:#fff">
+          <option value="">Not sure yet</option>
+          <option value="own">Making my own way</option>
+        </select>
       </div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px">
         <button class="btn" type="submit" id="rSubmit">Send my RSVP</button>
@@ -458,7 +547,8 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     <h2>Before we lock it in</h2>
     <div class="steps" style="margin-top:22px">
       <div class="step"><p>Tell Sam whether you're <strong style="color:var(--ink)">running or cheering</strong>.</p></div>
-      <div class="step"><p>Amex Platinum holders <strong style="color:var(--ink)">book through Amex Travel</strong>. Everyone else books the public rate or joins the group block.</p></div>
+      <div class="step"><p><strong style="color:var(--ink)">Book your own room</strong> with your room preference. Amex Platinum holders book through Amex Travel for the extra benefits.</p></div>
+      <div class="step"><p><strong style="color:var(--ink)">Pick your van</strong> in the RSVP form, or tell us you're making your own way.</p></div>
       <div class="step"><p>Runners <strong style="color:var(--ink)">register for the 10K</strong> (฿650) on regis.run. It starts at 5:45pm on Saturday.</p></div>
     </div>
   </div>
@@ -534,6 +624,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     [c.going+' going',run+' running',c.maybe+' maybe',c.no+' can’t make it'].forEach(function(t){var s=document.createElement('span');s.textContent=t;ct.appendChild(s);});
     if(window.pattayaSetPeople)window.pattayaSetPeople(c.going);
     fillWho();
+    renderVans();
   }
 
   // name picker
@@ -550,9 +641,9 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
   who.addEventListener('change',function(){
     whoNew.hidden=who.value!=='__new';if(!whoNew.hidden)whoNew.focus();
     var g=guests.find(function(x){return x.name===who.value;});
-    if(g){form.status=g.status==='none'?'':g.status;form.role=g.role||'';document.getElementById('rnote').value=g.note||'';press('rStatus','data-s',form.status);press('rRole','data-r',form.role);}
+    if(g){form.status=g.status==='none'?'':g.status;form.role=g.role||'';document.getElementById('rnote').value=g.note||'';press('rStatus','data-s',form.status);press('rRole','data-r',form.role);document.getElementById('rVan').value=g.van||'';}
   });
-  document.querySelectorAll('#rStatus button').forEach(function(b){b.addEventListener('click',function(){form.status=b.getAttribute('data-s');press('rStatus','data-s',form.status);document.getElementById('roleWrap').hidden=form.status==='no';});});
+  document.querySelectorAll('#rStatus button').forEach(function(b){b.addEventListener('click',function(){form.status=b.getAttribute('data-s');press('rStatus','data-s',form.status);document.getElementById('roleWrap').hidden=form.status==='no';document.getElementById('vanWrap').hidden=form.status==='no';});});
   document.querySelectorAll('#rRole button').forEach(function(b){b.addEventListener('click',function(){form.role=b.getAttribute('data-r');press('rRole','data-r',form.role);});});
   var msg=document.getElementById('rMsg'),sub=document.getElementById('rSubmit');
   document.getElementById('rsvpForm').addEventListener('submit',function(e){
@@ -561,11 +652,33 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     if(!name){msg.textContent='Choose your name first.';return;}
     if(!form.status){msg.textContent='Say if you’re coming.';return;}
     sub.disabled=true;msg.textContent='Sending…';
-    api('POST','api/rsvps',{name:name,status:form.status,role:form.status==='no'?'':form.role,note:document.getElementById('rnote').value})
+    api('POST','api/rsvps',{name:name,status:form.status,role:form.status==='no'?'':form.role,note:document.getElementById('rnote').value,van:form.status==='no'?'':document.getElementById('rVan').value})
       .then(function(){msg.textContent='Thanks, '+name+'. You’re on the list.';return load();})
       .catch(function(err){msg.textContent=err.message;})
       .then(function(){sub.disabled=false;});
   });
+
+
+  // vans
+  var VANS=null;
+  fetch('vans.json').then(function(r){return r.json();}).then(function(v){
+    VANS=v;var sel=document.getElementById('rVan');
+    v.vans.forEach(function(x){var o=document.createElement('option');o.value=x.id;o.textContent=x.name+': '+x.pickup+', '+x.time;sel.insertBefore(o,sel.querySelector('option[value=own]'));});
+    document.getElementById('vanReturn').textContent=v.returnNote||'';renderVans();
+  }).catch(function(){});
+  function renderVans(){
+    if(!VANS)return;var box=document.getElementById('vanCards');box.textContent='';
+    VANS.vans.forEach(function(v){
+      var riders=guests.filter(function(g){return g.van===v.id&&g.status!=='no';});
+      var left=VANS.seats-riders.length;
+      var c=document.createElement('div');c.className='card van';var b=document.createElement('div');b.className='body';c.appendChild(b);
+      var h=document.createElement('h3');h.textContent=v.name+' · '+v.time;b.appendChild(h);
+      var p=document.createElement('p');p.textContent=v.pickup+' ';var a=document.createElement('a');a.href=v.map;a.textContent='Map';p.appendChild(a);b.appendChild(p);
+      var st=document.createElement('p');st.className='seats'+(left<=0?' full':'');st.textContent=left<=0?'Full':left+' of '+VANS.seats+' seats left';b.appendChild(st);
+      if(riders.length){var ul=document.createElement('ul');riders.forEach(function(g){var li=document.createElement('li');li.textContent=g.name;ul.appendChild(li);});b.appendChild(ul);}
+      box.appendChild(c);
+    });
+  }
 
   // admin editor (open with #admin-<token> once on this device)
   var ed=document.getElementById('editor'),editing=-1,cur={};
@@ -593,6 +706,48 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
   }
   (token?api('GET','api/admin').then(function(){admin=true;},function(){admin=false;try{localStorage.removeItem('pattayaAdmin');}catch(e){}token='';}):Promise.resolve()).then(load);
   setInterval(function(){if(document.visibilityState==='visible'&&ed.hidden)load();},30000);
+})();
+</script>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+(function(){
+  // countdown to Fri 29 Jan 2027, 9:30am Bangkok time
+  var target=Date.parse('2027-01-29T09:30:00+07:00');
+  function tick(){
+    var ms=target-Date.now();
+    if(ms<=0){document.getElementById('countdown').innerHTML='<p class="small" style="font-weight:600;color:var(--green)">It’s Pattaya time. See you on the van!</p>';return;}
+    var m=Math.floor(ms/60000),d=Math.floor(m/1440),h=Math.floor((m%1440)/60);
+    document.getElementById('cdD').textContent=d;document.getElementById('cdH').textContent=h;document.getElementById('cdM').textContent=m%60;
+  }
+  tick();setInterval(tick,30000);
+
+  // map
+  var places=[
+    {n:'The Standard, Pattaya Na Jomtien',d:'Our hotel · 8/12 Moo 2, Soi Na Jomtien 10',c:[12.849,100.905],col:'#1F5E46',q:'The Standard Pattaya Na Jomtien'},
+    {n:'Mabprachan Reservoir Public Park',d:'10K start and finish · Sat 5:45pm',c:[12.918,100.952],col:'#B4432A',q:'Mabprachan Reservoir Pattaya'},
+    {n:'Soi 6',d:'Saturday night · central Pattaya',c:[12.9466,100.8875],col:'#7A3E8E',q:'Soi 6 Pattaya'},
+    {n:'Sanctuary of Truth',d:'Sunday 2:30pm · on the way home',c:[12.9727,100.8890],col:'#A0711C',q:'Sanctuary of Truth Pattaya'}
+  ];
+  var list=document.getElementById('placeList');
+  places.forEach(function(p,i){
+    var d=document.createElement('div');d.className='place';
+    var pin=document.createElement('span');pin.className='pin';pin.style.background=p.col;pin.textContent=i+1;d.appendChild(pin);
+    var t=document.createElement('div');var h=document.createElement('strong');h.textContent=p.n;t.appendChild(h);
+    var q=document.createElement('p');q.textContent=p.d+' · ';var a=document.createElement('a');a.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.q);a.textContent='Directions';q.appendChild(a);t.appendChild(q);
+    d.appendChild(t);list.appendChild(d);
+  });
+  if(!window.L){document.getElementById('mapEl').style.display='none';return;}
+  var map=L.map('mapEl',{scrollWheelZoom:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+  var group=[];
+  places.forEach(function(p,i){
+    var icon=L.divIcon({className:'',html:'<span class="pin" style="background:'+p.col+';display:flex;width:28px;height:28px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)">'+(i+1)+'</span>',iconSize:[28,28],iconAnchor:[14,14]});
+    var mk=L.marker(p.c,{icon:icon,title:p.n}).addTo(map);
+    var el=document.createElement('div');var b=document.createElement('strong');b.textContent=p.n;el.appendChild(b);el.appendChild(document.createElement('br'));el.appendChild(document.createTextNode(p.d));
+    mk.bindPopup(el);group.push(p.c);
+  });
+  map.fitBounds(group,{padding:[30,30]});
 })();
 </script>
 </body>

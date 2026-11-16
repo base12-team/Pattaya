@@ -36,6 +36,12 @@ RSVPs live in the `rsvp-data` volume, so they survive rebuilds.
 
 `.github/workflows/deploy.yml` redeploys on every push to `main`. Add three repository secrets (Settings > Secrets and variables > Actions): `HETZNER_HOST`, `HETZNER_USER`, `HETZNER_SSH_KEY`. Do the first clone and `.env` on the server by hand, as above.
 
+## Editing the vans, map pins and calendar
+
+- **Vans:** edit `public/vans.json` (name, pickup point, time, map link, seats per van). The RSVP form and the van cards update from it, and the server enforces the seat limit.
+- **Map pins:** the `places` list near the bottom of `public/index.html`.
+- **Calendar files:** `public/pattaya-weekend.ics` and `public/pattaya-10k.ics`.
+
 ## Admin (fixing replies)
 
 Open `https://<SITE_DOMAIN>/#admin-<ADMIN_TOKEN>` once on your phone or laptop. That device is remembered, and you can then tap any name in the RSVP list to change a reply, set someone back to "No reply" or remove them. Don't share that link.
