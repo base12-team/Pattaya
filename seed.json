@@ -1,0 +1,31 @@
+{
+  "guests": [
+    {"name": "Sam", "status": "going"},
+    {"name": "Chris", "status": "going"},
+    {"name": "Jesse", "status": "going"},
+    {"name": "Janine", "status": "going"},
+    {"name": "Nicole", "status": "going"},
+    {"name": "Yury", "status": "going"},
+    {"name": "Pat", "status": "going"},
+    {"name": "Kemji", "status": "going"},
+    {"name": "Muha", "status": "going"},
+    {"name": "Rhea", "status": "going"},
+    {"name": "Stefano", "status": "going"},
+    {"name": "Luis", "status": "going"},
+    {"name": "Cam", "status": "going"},
+    {"name": "Amit", "status": "going"},
+    {"name": "Jenny", "status": "going"},
+    {"name": "Ilhan", "status": "going"},
+    {"name": "Neil", "status": "going"},
+    {"name": "Laura", "status": "going"},
+    {"name": "Darryl", "status": "going"},
+    {"name": "Fabe", "status": "going"},
+    {"name": "Fabe's girlfriend", "status": "going"},
+    {"name": "Melissa", "status": "going"},
+    {"name": "Ali", "status": "going"},
+    {"name": "Marc", "status": "maybe", "note": "Probably skiing"},
+    {"name": "Taime", "status": "maybe", "note": "Probably skiing"},
+    {"name": "Joe", "status": "maybe", "note": "Probably skiing"},
+    {"name": "Lenny", "status": "maybe", "note": "Probably skiing"}
+  ]
+}

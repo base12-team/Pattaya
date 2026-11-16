@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pattaya Run Weekend · 29–31 Jan 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F3EA; --ink:#1F2A24; --muted:#5B6660; --green:#1F5E46; --green-soft:#E3EEE7;
+  --card:#FFFFFF; --line:#E6DDCB; --amber:#F3E3B5; --amber-ink:#7A5A10;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:var(--green)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;margin:0}
+h1{font-size:clamp(2.2rem,5vw,3.4rem)}
+h2{font-size:clamp(1.7rem,3.4vw,2.2rem)}
+h3{font-size:1.2rem}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin:0 0 8px}
+.lede{color:var(--muted);font-size:1.08rem;max-width:62ch;margin:10px 0 0}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:rgba(247,243,234,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;white-space:nowrap;padding-top:10px;padding-bottom:10px}
+nav .brand{font-family:Fraunces,Georgia,serif;font-weight:600;margin-right:12px}
+nav a{color:var(--ink);text-decoration:none;font-size:.92rem;font-weight:500;padding:8px 12px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center}
+nav a:hover{background:var(--green-soft)}
+
+/* hero */
+.hero{padding:28px 0 8px}
+.hero-img{border-radius:16px;overflow:hidden;aspect-ratio:16/8;background:#e9e1cf}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero h1{margin-top:28px}
+.meta{color:var(--green);font-weight:600;margin-top:8px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:180px}
+.stat b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.6rem;font-weight:600}
+.stat span{color:var(--muted);font-size:.9rem}
+
+/* cards & grids */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card .body{padding:18px 20px 20px}
+.card .ph{aspect-ratio:3/2;overflow:hidden;background:#e9e1cf}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card p{margin:6px 0 0;color:var(--muted)}
+.tag{color:var(--green);font-weight:600;font-size:.92rem;margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:10px;background:var(--green);color:#fff;font-weight:600;text-decoration:none;border:0;font-size:1rem}
+.btn:hover{background:#184c39}
+.btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+.head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}
+
+/* itinerary */
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.day h3{font-size:1.35rem}
+.day .date{color:var(--green);font-weight:600;font-size:.9rem}
+.slot{display:flex;gap:12px;padding:10px 0;border-top:1px solid #F0EADD}
+.slot:first-of-type{border-top:0}
+.slot time{flex:0 0 64px;font-weight:600;font-size:.92rem}
+.slot span{color:var(--muted)}
+.slot strong{color:var(--ink)}
+.day.hl{border-color:var(--green);box-shadow:0 0 0 1px var(--green) inset}
+
+/* gallery */
+.gallery{display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.gallery .big{grid-column:span 2;grid-row:span 2}
+.gallery div{border-radius:12px;overflow:hidden;background:#e9e1cf;aspect-ratio:1/1}
+.gallery .big{aspect-ratio:auto}
+.gallery img{width:100%;height:100%;object-fit:cover}
+@media (max-width:700px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* list */
+.feat{display:flex;gap:14px;align-items:flex-start}
+.ico{flex:0 0 44px;height:44px;border-radius:12px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;color:var(--green)}
+.feat p{margin:2px 0 0;color:var(--muted)}
+
+/* costs */
+.rows{margin-top:6px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #F0EADD}
+.row:last-child{border-bottom:0}
+.row.total{font-weight:700;font-size:1.05rem}
+.calc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.calc label{font-weight:600;display:block;margin-bottom:6px}
+.calc input[type=range]{width:100%;accent-color:var(--green)}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.seg button{min-height:44px;padding:0 16px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font:600 .95rem Inter,sans-serif;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+.big-num{font-family:Fraunces,Georgia,serif;font-size:2.6rem;font-weight:600;line-height:1}
+.small{font-size:.88rem;color:var(--muted)}
+
+/* guests */
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:6px 0 18px;font-size:.92rem;font-weight:500}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:10px;font-weight:500}
+.chip .av{width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.7);display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--ink)}
+.chip.maybe{background:var(--amber);color:var(--amber-ink);border:1.5px dashed #D9B55A}
+.subhead{font-weight:600;margin:22px 0 10px;color:var(--amber-ink)}
+
+/* links */
+.linkcard{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:border-color .15s}
+.linkcard:hover{border-color:var(--green)}
+.linkcard small{display:block;color:var(--green);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.75rem}
+.linkcard b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.15rem;display:block;margin-top:2px}
+.linkcard span{color:var(--muted);font-size:.92rem}
+
+.steps{counter-reset:s;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.step::before{counter-increment:s;content:counter(s);display:inline-flex;width:32px;height:32px;border-radius:999px;background:var(--green);color:#fff;font-weight:700;align-items:center;justify-content:center;margin-bottom:10px}
+.step p{margin:0;color:var(--muted)}
+
+/* rsvp */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.board{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:22px}
+.col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.col h3{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.col h3 span{color:var(--muted);font-family:Inter,sans-serif;font-weight:600;font-size:.95rem}
+.dot{display:inline-block;width:12px;height:12px;border-radius:4px}
+.col .chips{flex-direction:column;align-items:stretch}
+.chip{border:0;font:500 .98rem Inter,sans-serif;color:var(--ink);text-align:left;min-height:40px}
+button.chip{cursor:pointer}
+button.chip:hover{outline:2px solid var(--green)}
+.chip .meta2{margin-left:auto;font-size:.78rem;font-weight:600;color:var(--muted);padding-left:8px}
+.chip.s-going{background:#DCEBE1}
+.chip.s-maybe{background:var(--amber)}
+.chip.s-no{background:#F1DCDC;color:#6E3A3A}
+.chip.s-none{background:#F3EFE6;color:var(--muted)}
+.empty{color:var(--muted);font-size:.9rem}
+.counts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.counts span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.92rem}
+.editor{position:fixed;inset:0;background:rgba(31,42,36,.4);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.editor[hidden]{display:none}
+.editor-card{background:#fff;border-radius:16px;padding:22px;max-width:440px;width:100%}
+footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<nav aria-label="Sections">
+  <div class="wrap">
+    <span class="brand">Pattaya '27</span>
+    <a href="#stay">Hotel</a>
+    <a href="#itinerary">Itinerary</a>
+    <a href="#boat">Boat</a>
+    <a href="#saturday">Soi 6 &amp; temple</a>
+    <a href="#costs">Costs</a>
+    <a href="#deals">Hotel deals</a>
+    <a href="#rsvp">RSVP</a>
+    <a href="#links">Links</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-img"><img src="img/yacht-slide.webp" alt="The Heliotrope catamaran anchored off an island with its water slide"></div>
+    <h1>Run. Sail. Soi 6.</h1>
+    <p class="meta">29 – 31 January 2027 · Pattaya, Thailand</p>
+    <p class="lede">A long weekend for 23 friends at The Standard, Pattaya Na Jomtien: a private sunset yacht, the Pong Mabprachan 10K, a night out on Soi 6, and the Sanctuary of Truth on the way home to reflect on our questionable life choices.</p>
+    <div class="stats">
+      <div class="stat"><b>≈ ฿15,600</b><span>all-in per person, sharing</span></div>
+      <div class="stat"><b>≈ ฿9,700</b><span>fixed costs per person</span></div>
+      <div class="stat"><b>5:45pm Sat</b><span>10K race start</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="stay">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <p class="eyebrow">Where we're staying</p>
+        <h2>The Standard, Pattaya Na Jomtien</h2>
+        <p class="lede">A 1960s-inspired beachfront hotel in Na Jomtien with a beach club, away from downtown. Two nights, breakfast included.</p>
+      </div>
+      <a class="btn" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien">View the hotel</a>
+    </div>
+    <div class="card" style="margin-bottom:18px"><div class="ph" style="aspect-ratio:16/7"><img src="img/hotel-aerial.jpg" alt="Aerial view of The Standard, Pattaya Na Jomtien on the beach"></div></div>
+    <div class="grid g3">
+      <div class="card"><div class="ph"><img src="img/hotel-pool.jpg" alt="Red umbrellas beside the pool, seen from above"></div><div class="body"><h3>The pool</h3><p>On the beach, a step from the sand.</p></div></div>
+      <div class="card"><div class="ph"><img src="img/hotel-room.jpg" alt="A guest room at The Standard"></div><div class="body"><h3>The rooms</h3><p class="tag">Standard King · breakfast included</p><p>Every room has a balcony or patio.</p></div></div>
+      <div class="card"><div class="ph"><img src="img/sereia.jpg" alt="Restaurant terrace at dusk under the trees"></div><div class="body"><h3>Sereia</h3><p class="tag">Friday dinner</p><p>The hotel's Thai coastal restaurant, with seafood fresh off the boat.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="itinerary" style="background:#F1EBDD">
+  <div class="wrap">
+    <p class="eyebrow">The weekend</p>
+    <h2>The itinerary</h2>
+    <div class="grid g3" style="margin-top:22px">
+      <div class="day">
+        <p class="date">Friday 29 Jan</p>
+        <h3>Arrive &amp; sail</h3>
+        <div style="margin-top:10px">
+          <div class="slot"><time>9:30am</time><span>Private vans leave Bangkok</span></div>
+          <div class="slot"><time>12pm</time><span>Arrive at The Standard. Lunch by the pool</span></div>
+          <div class="slot"><time>4–8pm</time><span><strong>Private sunset cruise</strong> on the Heliotrope. Sunset is about 6:15pm</span></div>
+          <div class="slot"><time>8:30pm</time><span>Dinner at Sereia, the hotel's Thai coastal restaurant</span></div>
+        </div>
+      </div>
+      <div class="day hl">
+        <p class="date">Saturday 30 Jan</p>
+        <h3>Race &amp; Soi 6</h3>
+        <div style="margin-top:10px">
+          <div class="slot"><time>Day</time><span>Free day: beach, pool or the hotel's adults-only rooftop</span></div>
+          <div class="slot"><time>4:45pm</time><span>Vans to Mabprachan Reservoir</span></div>
+          <div class="slot"><time>5:45pm</time><span><strong>Pong Mabprachan 10K starts.</strong> Supporters meet at the finish</span></div>
+          <div class="slot"><time>Late</time><span><strong>Soi 6</strong> to celebrate. Vans or Bolt there and back</span></div>
+        </div>
+      </div>
+      <div class="day">
+        <p class="date">Sunday 31 Jan</p>
+        <h3>Temple &amp; home</h3>
+        <div style="margin-top:10px">
+          <div class="slot"><time>Late am</time><span>Breakfast and checkout: 12pm, or 4pm for Amex Platinum rooms</span></div>
+          <div class="slot"><time>2:30pm</time><span><strong>Sanctuary of Truth</strong> on the way home</span></div>
+          <div class="slot"><time>4:30pm</time><span>Vans back to Bangkok</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="boat">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <p class="eyebrow">Friday · 4–8pm</p>
+        <h2>The Heliotrope</h2>
+        <p class="lede">A private luxury catamaran for our sunset cruise, with captain and fuel included. Water slide, floating pool and paddleboards on board.</p>
+      </div>
+      <a class="btn" href="https://www.samboat.com/boat-rental/pattaya/yacht/159046">See the boat</a>
+    </div>
+    <div class="gallery">
+      <div class="big"><img src="img/yacht-front.webp" alt="Guests relaxing on the front deck of the yacht"></div>
+      <div><img src="img/yacht-aerial.webp" alt="Aerial view of the Heliotrope on turquoise water"></div>
+      <div><img src="img/yacht-bow.webp" alt="View from the bow toward a small island"></div>
+      <div><img src="img/yacht-dining.webp" alt="Dining table set on the rear deck"></div>
+      <div><img src="img/yacht-floats.webp" alt="Floating pool with inflatable ducks behind the yacht"></div>
+    </div>
+  </div>
+</section>
+
+<section id="saturday" style="padding-top:0">
+  <div class="wrap grid g2">
+    <div class="card">
+      <div class="body">
+        <p class="eyebrow">Saturday night</p>
+        <h2>Soi 6</h2>
+        <p>After the race, we head into central Pattaya to celebrate.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 20px 20px">
+        <div style="border-radius:12px;overflow:hidden;aspect-ratio:1/1"><img src="img/soi6-avarice.jpg" alt="Bar staff at Avarice on Soi 6" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="border-radius:12px;overflow:hidden;aspect-ratio:1/1"><img src="img/soi6-wicked.jpg" alt="Bar staff in costume at Wicked on Soi 6" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="body">
+        <p class="eyebrow">Sunday afternoon</p>
+        <h2>Sanctuary of Truth</h2>
+        <p>Pattaya's hand-carved teak temple on the seafront, on the way home. ฿500 per adult.</p>
+      </div>
+      <div style="padding:0 20px 20px"><div style="border-radius:12px;overflow:hidden;aspect-ratio:3/2"><img src="img/sanctuary.jpg" alt="The carved teak Sanctuary of Truth on the seafront" style="width:100%;height:100%;object-fit:cover"></div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">The highlights</p>
+    <h2>What's included</h2>
+    <div class="grid g3" style="margin-top:22px">
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V8"/><path d="M3 14h18v4"/><path d="M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="2"/></svg></div><div><h3>Stay</h3><p>Two nights at The Standard, breakfast included.</p></div></div>
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M12 4l6 9h-6"/><path d="M3 16h18l-2 4H5z"/></svg></div><div><h3>Sail</h3><p>Four hours on a private catamaran, with captain and fuel.</p></div></div>
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M10 2h4"/><path d="M12 2v3"/></svg></div><div><h3>Run</h3><p>Pong Mabprachan 10K, 5:45pm. Chip timing, shirt, medal, food and drinks. ฿650.</p></div></div>
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14l-7 8z"/><path d="M12 12v8"/><path d="M8 20h8"/></svg></div><div><h3>Celebrate</h3><p>Saturday night on Soi 6 after the race.</p></div></div>
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 5H9z"/><path d="M6 10h12"/><path d="M7 10l-2 4h14l-2-4"/><path d="M6 14v6"/><path d="M18 14v6"/><path d="M3 20h18"/></svg></div><div><h3>See</h3><p>The Sanctuary of Truth on Sunday afternoon.</p></div></div>
+      <div class="feat"><div class="ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V8a2 2 0 0 1 2-2h11l5 5v5h-2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M3 11h18"/></svg></div><div><h3>Ride</h3><p>Private vans, door to door from Bangkok and back.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="costs" style="background:#F1EBDD">
+  <div class="wrap">
+    <p class="eyebrow">The price</p>
+    <h2>What it costs</h2>
+    <p class="lede">Prices checked 16 Nov 2026 at about ฿33 to the US dollar. Work out your own share below.</p>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="calc">
+        <label for="n">People going: <span id="nOut">23</span></label>
+        <input id="n" type="range" min="15" max="27" value="23">
+        <div style="margin-top:18px"><span style="font-weight:600">Are you running?</span>
+          <div class="seg" role="group" aria-label="Running or cheering">
+            <button type="button" data-run="1" aria-pressed="false">Running</button>
+            <button type="button" data-run="0" aria-pressed="true">Cheering</button>
+          </div>
+        </div>
+        <div style="margin-top:18px"><span style="font-weight:600">Room</span>
+          <div class="seg" role="group" aria-label="Room type">
+            <button type="button" data-room="share" aria-pressed="true">Sharing</button>
+            <button type="button" data-room="own" aria-pressed="false">My own room</button>
+          </div>
+        </div>
+        <div style="margin-top:22px;padding-top:18px;border-top:1px solid #F0EADD">
+          <div class="small">Your estimated total</div>
+          <div class="big-num" id="total">฿15,577</div>
+          <div class="small" id="fixedOut">Fixed costs ฿9,677 + ฿5,900 spending money</div>
+        </div>
+      </div>
+      <div class="card"><div class="body">
+        <h3>Breakdown per person</h3>
+        <div class="rows">
+          <div class="row"><span>The Standard, 2 nights with breakfast</span><strong id="cHotel">฿6,330</strong></div>
+          <div class="row"><span>Heliotrope sunset cruise (Flex Rate)</span><strong id="cBoat">฿2,195</strong></div>
+          <div class="row"><span>Vans Bangkok ↔ Pattaya (estimate)</span><strong id="cVan">฿652</strong></div>
+          <div class="row"><span>Sanctuary of Truth</span><strong>฿500</strong></div>
+          <div class="row"><span>Race entry</span><strong id="cRace">–</strong></div>
+          <div class="row"><span>Spending money: food, drinks, rides, Soi 6 (estimate)</span><strong>฿5,900</strong></div>
+          <div class="row total"><span>Total</span><span id="cTotal">฿15,577</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="deals">
+  <div class="wrap">
+    <p class="eyebrow">Booking your room</p>
+    <h2>Hotel deals</h2>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card"><div class="body">
+        <p class="tag">Amex Platinum</p>
+        <h3 style="font-size:1.4rem">The Hotel Collection benefits</h3>
+        <ul style="padding-left:20px;color:var(--muted)">
+          <li>Two US$100 credits for food, drinks or the spa (about ฿6,600)</li>
+          <li>Room upgrade on arrival, when available</li>
+          <li>12pm check-in and 4pm late checkout, when available</li>
+          <li>Breakfast for two every day</li>
+        </ul>
+        <p class="small">Book 2+ nights through American Express Travel or Platinum Concierge and pay with your own card. Up to 3 rooms per cardmember, and you must be staying.</p>
+        <p style="margin-top:14px"><a class="btn ghost" href="https://www.americanexpress.com/en-gb/travel/discover/property/Thailand/Chon-Buri/The-Standard-Pattaya-Na-Jomtien">See the Amex offer</a></p>
+      </div></div>
+      <div class="card"><div class="body">
+        <p class="tag">Without Amex</p>
+        <h3 style="font-size:1.4rem">Other ways to book</h3>
+        <ol style="padding-left:20px;color:var(--muted)">
+          <li><strong style="color:var(--ink)">Public rate:</strong> ฿6,330 a night with breakfast on Booking.com or Trip.com, free cancellation until 25 Jan</li>
+          <li><strong style="color:var(--ink)">World of Hyatt:</strong> The Standard is a Hyatt hotel. Join free to earn points, or redeem a Category 3 award</li>
+          <li><strong style="color:var(--ink)">Group rate:</strong> we'll ask the hotel for a block of about 12 rooms</li>
+          <li><strong style="color:var(--ink)">Specials:</strong> the hotel has run packages that bundle breakfast, dinner and drinks</li>
+        </ol>
+        <p style="margin-top:14px"><a class="btn ghost" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien">Book on hyatt.com</a></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="rsvp" style="background:#F1EBDD">
+  <div class="wrap">
+    <p class="eyebrow">RSVP</p>
+    <h2>Who's coming</h2>
+    <p class="lede">Pick your name, say if you're in, and whether you're running or cheering. Everyone sees the list update.</p>
+
+    <form id="rsvpForm" class="calc" style="margin-top:22px" novalidate>
+      <div class="grid g2" style="gap:16px">
+        <div>
+          <label for="who">Your name</label>
+          <select id="who" style="width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font:inherit;background:#fff"></select>
+          <input id="whoNew" placeholder="Type your name" maxlength="40" hidden style="width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;margin-top:8px">
+        </div>
+        <div>
+          <label for="rnote">Note (optional)</label>
+          <input id="rnote" maxlength="60" placeholder="e.g. arriving Saturday" style="width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit">
+        </div>
+      </div>
+      <div style="margin-top:16px"><span style="font-weight:600">Are you coming?</span>
+        <div class="seg" id="rStatus" role="group" aria-label="Are you coming?">
+          <button type="button" data-s="going" aria-pressed="false">I'm in</button>
+          <button type="button" data-s="maybe" aria-pressed="false">Maybe</button>
+          <button type="button" data-s="no" aria-pressed="false">Can't make it</button>
+        </div>
+      </div>
+      <div style="margin-top:16px" id="roleWrap"><span style="font-weight:600">The 10K</span>
+        <div class="seg" id="rRole" role="group" aria-label="Running or cheering">
+          <button type="button" data-r="running" aria-pressed="false">Running</button>
+          <button type="button" data-r="cheering" aria-pressed="false">Cheering</button>
+          <button type="button" data-r="" aria-pressed="true">Not sure yet</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px">
+        <button class="btn" type="submit" id="rSubmit">Send my RSVP</button>
+        <span class="small" id="rMsg" role="status"></span>
+      </div>
+    </form>
+
+    <div class="counts" id="counts"></div>
+    <div class="board">
+      <div class="col"><h3><i class="dot" style="background:#7FB596"></i>Going <span id="nGoing"></span></h3><div class="chips" id="colGoing"></div></div>
+      <div class="col"><h3><i class="dot" style="background:#E3BE5C"></i>Maybe <span id="nMaybe"></span></h3><div class="chips" id="colMaybe"></div></div>
+      <div class="col"><h3><i class="dot" style="background:#C98B8B"></i>Can't make it <span id="nNo"></span></h3><div class="chips" id="colNo"></div></div>
+      <div class="col"><h3><i class="dot" style="background:#B9B2A3"></i>No reply yet <span id="nNone"></span></h3><div class="chips" id="colNone"></div></div>
+    </div>
+    <p class="small" id="rsvpNote" style="margin-top:14px">Loading replies…</p>
+
+    <div id="editor" class="editor" hidden role="dialog" aria-modal="true" aria-labelledby="edName">
+      <div class="editor-card">
+        <h3 id="edName">Name</h3>
+        <p class="small" style="margin:10px 0 6px">Reply</p>
+        <div class="seg" id="edStatus">
+          <button type="button" data-s="going">Going</button>
+          <button type="button" data-s="maybe">Maybe</button>
+          <button type="button" data-s="no">Can't make it</button>
+          <button type="button" data-s="none">No reply</button>
+        </div>
+        <p class="small" style="margin:14px 0 6px">Race</p>
+        <div class="seg" id="edRole">
+          <button type="button" data-r="running">Running</button>
+          <button type="button" data-r="cheering">Cheering</button>
+          <button type="button" data-r="">Not sure</button>
+        </div>
+        <label class="small" for="edNote" style="display:block;margin:14px 0 6px">Note</label>
+        <input id="edNote" maxlength="60" style="width:100%;min-height:44px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+          <button class="btn" type="button" id="edSave">Save</button>
+          <button class="btn ghost" type="button" id="edCancel">Cancel</button>
+          <button class="btn ghost" type="button" id="edRemove" style="margin-left:auto;color:#9B3B3B;border-color:#9B3B3B">Remove</button>
+        </div>
+        <p class="small" id="edErr" role="alert" style="color:#9B3B3B;margin:10px 0 0"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="links">
+  <div class="wrap">
+    <p class="eyebrow">Look it up</p>
+    <h2>Useful links</h2>
+    <div class="grid g3" style="margin-top:22px">
+      <a class="linkcard" href="https://www.regis.run/race/pmr2027/"><small>Race</small><b>Pong Mabprachan Run 2027</b><span>Register for the 10K (฿650)</span></a>
+      <a class="linkcard" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien"><small>Hotel</small><b>The Standard, Pattaya</b><span>Rooms, photos and booking on hyatt.com</span></a>
+      <a class="linkcard" href="https://www.americanexpress.com/en-gb/travel/discover/property/Thailand/Chon-Buri/The-Standard-Pattaya-Na-Jomtien"><small>Amex</small><b>Hotel Collection offer</b><span>For Amex Platinum cardmembers</span></a>
+      <a class="linkcard" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien/dining"><small>Dinner</small><b>Sereia &amp; hotel dining</b><span>Restaurants at The Standard</span></a>
+      <a class="linkcard" href="https://www.samboat.com/boat-rental/pattaya/yacht/159046"><small>Boat</small><b>The Heliotrope on SamBoat</b><span>Photos, specs and booking</span></a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Before we lock it in</h2>
+    <div class="steps" style="margin-top:22px">
+      <div class="step"><p>Tell Sam whether you're <strong style="color:var(--ink)">running or cheering</strong>.</p></div>
+      <div class="step"><p>Amex Platinum holders <strong style="color:var(--ink)">book through Amex Travel</strong>. Everyone else books the public rate or joins the group block.</p></div>
+      <div class="step"><p>Runners <strong style="color:var(--ink)">register for the 10K</strong> (฿650) on regis.run. It starts at 5:45pm on Saturday.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Prices were checked 16 Nov 2026 and may change. The hotel price is the Booking.com/Trip.com rate for 29–31 Jan 2027. The yacht is $1,479 for 4 hours plus the $50.60 Flex Rate (free cancellation until 24 Jan). Vans, food and nightlife are estimates. Race details are from regis.run; Amex benefits from americanexpress.com.</div>
+</footer>
+
+<script>
+(function(){
+  var BOAT=(1479+50.60)*33, HOTEL=6330, TEMPLE=500, RACE=650, SPEND=5900;
+  var state={n:23,run:false,own:false};
+  function fmt(x){return '฿'+Math.round(x).toLocaleString('en-US');}
+  function calc(){
+    var n=state.n;
+    var vans=n<=20?2*2*2500:3*2*2500;
+    var hotel=state.own?HOTEL*2:HOTEL;
+    var boat=BOAT/n, van=vans/n, race=state.run?RACE:0;
+    var fixed=hotel+boat+van+TEMPLE+race;
+    var total=fixed+SPEND;
+    document.getElementById('nOut').textContent=n;
+    document.getElementById('cHotel').textContent=fmt(hotel);
+    document.getElementById('cBoat').textContent=fmt(boat);
+    document.getElementById('cVan').textContent=fmt(van);
+    document.getElementById('cRace').textContent=state.run?fmt(RACE):'–';
+    document.getElementById('cTotal').textContent=fmt(total);
+    document.getElementById('total').textContent=fmt(total);
+    document.getElementById('fixedOut').textContent='Fixed costs '+fmt(fixed)+' + '+fmt(SPEND)+' spending money'+(n>25?' · check the boat takes '+n:'');
+  }
+  document.getElementById('n').addEventListener('input',function(e){state.n=+e.target.value;calc();});
+  document.querySelectorAll('[data-run]').forEach(function(b){b.addEventListener('click',function(){state.run=b.dataset.run==='1';document.querySelectorAll('[data-run]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});calc();});});
+  document.querySelectorAll('[data-room]').forEach(function(b){b.addEventListener('click',function(){state.own=b.dataset.room==='own';document.querySelectorAll('[data-room]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});calc();});});
+  calc();
+  window.pattayaSetPeople=function(n){if(n>=15&&n<=27){state.n=n;document.getElementById('n').value=n;calc();}};
+})();
+</script>
+
+<script>
+(function(){
+  var guests=[], admin=false, token='';
+  var cols={going:'colGoing',maybe:'colMaybe',no:'colNo',none:'colNone'};
+  var counts={going:'nGoing',maybe:'nMaybe',no:'nNo',none:'nNone'};
+  var note=document.getElementById('rsvpNote');
+  try{var m=location.hash.match(/^#admin-(.+)$/);if(m){localStorage.setItem('pattayaAdmin',m[1]);history.replaceState(null,'',location.pathname+'#rsvp');}token=localStorage.getItem('pattayaAdmin')||'';}catch(e){}
+
+  function api(method,url,body){
+    var h={'Content-Type':'application/json'};if(token)h['X-Admin-Token']=token;
+    return fetch(url,{method:method,headers:h,body:body?JSON.stringify(body):undefined}).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(d){if(!r.ok)throw new Error(d.error||'Something went wrong');return d;});
+    });
+  }
+
+  function render(){
+    Object.keys(cols).forEach(function(k){document.getElementById(cols[k]).textContent='';});
+    var c={going:0,maybe:0,no:0,none:0},run=0;
+    guests.forEach(function(g,i){
+      c[g.status]++;if(g.status==='going'&&g.role==='running')run++;
+      var el=document.createElement(admin?'button':'div');
+      if(admin){el.type='button';el.setAttribute('aria-label','Edit '+g.name);el.addEventListener('click',function(){openEd(i);});}
+      el.className='chip s-'+g.status;
+      var av=document.createElement('span');av.className='av';av.textContent=g.name.charAt(0).toUpperCase();el.appendChild(av);
+      var nm=document.createElement('span');nm.textContent=g.name;el.appendChild(nm);
+      var meta=[];if(g.role)meta.push(g.role==='running'?'Running':'Cheering');if(g.note)meta.push(g.note);
+      if(meta.length){var mm=document.createElement('span');mm.className='meta2';mm.textContent=meta.join(' · ');el.appendChild(mm);}
+      document.getElementById(cols[g.status]).appendChild(el);
+    });
+    Object.keys(cols).forEach(function(k){
+      document.getElementById(counts[k]).textContent=c[k];
+      if(!c[k]){var e=document.createElement('p');e.className='empty';e.textContent='No one yet';document.getElementById(cols[k]).appendChild(e);}
+    });
+    var ct=document.getElementById('counts');ct.textContent='';
+    [c.going+' going',run+' running',c.maybe+' maybe',c.no+' can’t make it'].forEach(function(t){var s=document.createElement('span');s.textContent=t;ct.appendChild(s);});
+    if(window.pattayaSetPeople)window.pattayaSetPeople(c.going);
+    fillWho();
+  }
+
+  // name picker
+  var who=document.getElementById('who'),whoNew=document.getElementById('whoNew');
+  function fillWho(){
+    var cur=who.value;who.textContent='';
+    var o=document.createElement('option');o.value='';o.textContent='Choose your name';who.appendChild(o);
+    guests.slice().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(g){var op=document.createElement('option');op.value=g.name;op.textContent=g.name;who.appendChild(op);});
+    var nw=document.createElement('option');nw.value='__new';nw.textContent='I’m not on the list';who.appendChild(nw);
+    if(cur)who.value=cur;
+  }
+  var form={status:'',role:''};
+  function press(id,attr,val){document.querySelectorAll('#'+id+' button').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute(attr)===val?'true':'false');});}
+  who.addEventListener('change',function(){
+    whoNew.hidden=who.value!=='__new';if(!whoNew.hidden)whoNew.focus();
+    var g=guests.find(function(x){return x.name===who.value;});
+    if(g){form.status=g.status==='none'?'':g.status;form.role=g.role||'';document.getElementById('rnote').value=g.note||'';press('rStatus','data-s',form.status);press('rRole','data-r',form.role);}
+  });
+  document.querySelectorAll('#rStatus button').forEach(function(b){b.addEventListener('click',function(){form.status=b.getAttribute('data-s');press('rStatus','data-s',form.status);document.getElementById('roleWrap').hidden=form.status==='no';});});
+  document.querySelectorAll('#rRole button').forEach(function(b){b.addEventListener('click',function(){form.role=b.getAttribute('data-r');press('rRole','data-r',form.role);});});
+  var msg=document.getElementById('rMsg'),sub=document.getElementById('rSubmit');
+  document.getElementById('rsvpForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=who.value==='__new'?whoNew.value.trim():who.value;
+    if(!name){msg.textContent='Choose your name first.';return;}
+    if(!form.status){msg.textContent='Say if you’re coming.';return;}
+    sub.disabled=true;msg.textContent='Sending…';
+    api('POST','api/rsvps',{name:name,status:form.status,role:form.status==='no'?'':form.role,note:document.getElementById('rnote').value})
+      .then(function(){msg.textContent='Thanks, '+name+'. You’re on the list.';return load();})
+      .catch(function(err){msg.textContent=err.message;})
+      .then(function(){sub.disabled=false;});
+  });
+
+  // admin editor (open with #admin-<token> once on this device)
+  var ed=document.getElementById('editor'),editing=-1,cur={};
+  function openEd(i){editing=i;var g=guests[i];cur={status:g.status,role:g.role};document.getElementById('edName').textContent=g.name;document.getElementById('edNote').value=g.note||'';document.getElementById('edErr').textContent='';press('edStatus','data-s',cur.status);press('edRole','data-r',cur.role);ed.hidden=false;}
+  function closeEd(){ed.hidden=true;editing=-1;}
+  document.querySelectorAll('#edStatus button').forEach(function(b){b.addEventListener('click',function(){cur.status=b.getAttribute('data-s');press('edStatus','data-s',cur.status);});});
+  document.querySelectorAll('#edRole button').forEach(function(b){b.addEventListener('click',function(){cur.role=b.getAttribute('data-r');press('edRole','data-r',cur.role);});});
+  document.getElementById('edCancel').addEventListener('click',closeEd);
+  ed.addEventListener('click',function(e){if(e.target===ed)closeEd();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ed.hidden)closeEd();});
+  document.getElementById('edSave').addEventListener('click',function(){
+    var g=guests[editing];
+    api('PUT','api/rsvps/'+encodeURIComponent(g.name),{status:cur.status,role:cur.role,note:document.getElementById('edNote').value}).then(function(){closeEd();return load();}).catch(function(err){document.getElementById('edErr').textContent=err.message;});
+  });
+  document.getElementById('edRemove').addEventListener('click',function(){
+    var g=guests[editing];
+    api('DELETE','api/rsvps/'+encodeURIComponent(g.name)).then(function(){closeEd();return load();}).catch(function(err){document.getElementById('edErr').textContent=err.message;});
+  });
+
+  function load(){
+    return api('GET','api/rsvps').then(function(d){
+      guests=(d.guests||[]);render();
+      note.textContent=(admin?'Admin mode: tap a name to edit. ':'')+(d.updatedAt?'Last reply '+new Date(d.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'.':'');
+    }).catch(function(){note.textContent='Couldn’t load replies. Refresh to try again.';});
+  }
+  (token?api('GET','api/admin').then(function(){admin=true;},function(){admin=false;try{localStorage.removeItem('pattayaAdmin');}catch(e){}token='';}):Promise.resolve()).then(load);
+  setInterval(function(){if(document.visibilityState==='visible'&&ed.hidden)load();},30000);
+})();
+</script>
+</body>
+</html>
