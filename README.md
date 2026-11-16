@@ -32,6 +32,10 @@ git pull && docker compose up -d --build
 
 RSVPs live in the `rsvp-data` volume, so they survive rebuilds.
 
+### Auto-deploy from GitHub (optional)
+
+`.github/workflows/deploy.yml` redeploys on every push to `main`. Add three repository secrets (Settings > Secrets and variables > Actions): `HETZNER_HOST`, `HETZNER_USER`, `HETZNER_SSH_KEY`. Do the first clone and `.env` on the server by hand, as above.
+
 ## Admin (fixing replies)
 
 Open `https://<SITE_DOMAIN>/#admin-<ADMIN_TOKEN>` once on your phone or laptop. That device is remembered, and you can then tap any name in the RSVP list to change a reply, set someone back to "No reply" or remove them. Don't share that link.
