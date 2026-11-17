@@ -89,7 +89,7 @@ function rateLimited(req) {
 }
 
 // ---------- static files ----------
-const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.ics': 'text/calendar; charset=utf-8', '.json': 'application/json; charset=utf-8' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.ics': 'text/calendar; charset=utf-8', '.json': 'application/json; charset=utf-8', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8' };
 function serveStatic(req, res, pathname) {
   let rel = decodeURIComponent(pathname);
   if (rel.endsWith('/')) rel += 'index.html';
@@ -207,12 +207,22 @@ async function api2(req, res, pathname) {
     if (!by || !runner) return send(res, 400, { error: 'Pick your name and a runner.' });
     if (!secs) return send(res, 400, { error: 'Enter a time like 52:30.' });
     const i = preds.predictions.findIndex((p) => sameName(p.by, by) && sameName(p.runner, runner));
-    const rec = { by, runner, seconds: secs, at: new Date().toISOString() };
+    const stake = typeof b.stake === 'string' ? b.stake.replace(/[\u0000-\u001f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 60) : '';
+    if (!stake) return send(res, 400, { error: 'Pick a forfeit.' });
+    const rec = { by, runner, seconds: secs, stake, at: new Date().toISOString() };
     if (i >= 0) preds.predictions[i] = rec; else {
       if (preds.predictions.length >= 2000) return send(res, 400, { error: 'Too many predictions.' });
       preds.predictions.push(rec);
     }
     writeJson(PRED_FILE, preds);
+    return send(res, 200, { ok: true });
+  }
+  if (req.method === 'DELETE' && pathname === '/api/predictions') {
+    if (!isAdmin(req)) return send(res, 401, { error: 'Admin only' });
+    const q = new URL(req.url, 'http://x').searchParams;
+    const i = preds.predictions.findIndex((p) => sameName(p.by, q.get('by') || '') && sameName(p.runner, q.get('runner') || ''));
+    if (i < 0) return send(res, 404, { error: 'Not found' });
+    preds.predictions.splice(i, 1); writeJson(PRED_FILE, preds);
     return send(res, 200, { ok: true });
   }
   if (req.method === 'POST' && pathname === '/api/results') {

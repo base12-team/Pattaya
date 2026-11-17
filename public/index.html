@@ -6,19 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pattaya Run Weekend · 29–31 Jan 2027</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Barlow Condensed';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/barlow-condensed-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/barlow-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/barlow-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/barlow-latin-600-normal.woff2) format('woff2')}
+
 :root{
-  --bg:#F7F3EA; --ink:#1F2A24; --muted:#5B6660; --green:#1F5E46; --green-soft:#E3EEE7;
-  --card:#FFFFFF; --line:#E6DDCB; --amber:#F3E3B5; --amber-ink:#7A5A10;
+  --bg:#F6F0E6; --ink:#2B1F1A; --muted:#6E5F57; --green:#C2462B; --green-soft:#F7E2D9;
+  --card:#FFFFFF; --line:#E8D9C8; --amber:#F3E3B5; --amber-ink:#7A5A10;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:var(--green)}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;margin:0}
+h1,h2,h3{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:600;line-height:1.15;margin:0}
 h1{font-size:clamp(2.2rem,5vw,3.4rem)}
 h2{font-size:clamp(1.7rem,3.4vw,2.2rem)}
 h3{font-size:1.2rem}
@@ -30,7 +35,7 @@ section{padding:56px 0}
 /* nav */
 nav{position:sticky;top:0;z-index:10;background:rgba(247,243,234,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;white-space:nowrap;padding-top:10px;padding-bottom:10px}
-nav .brand{font-family:Fraunces,Georgia,serif;font-weight:600;margin-right:12px}
+nav .brand{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:600;margin-right:12px}
 nav a{color:var(--ink);text-decoration:none;font-size:.92rem;font-weight:500;padding:8px 12px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center}
 nav a:hover{background:var(--green-soft)}
 
@@ -42,7 +47,7 @@ nav a:hover{background:var(--green-soft)}
 .meta{color:var(--green);font-weight:600;margin-top:8px}
 .stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:180px}
-.stat b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.6rem;font-weight:600}
+.stat b{display:block;font-family:'Barlow Condensed',Impact,sans-serif;font-size:1.6rem;font-weight:600}
 .stat span{color:var(--muted);font-size:.9rem}
 
 /* cards & grids */
@@ -93,9 +98,9 @@ nav a:hover{background:var(--green-soft)}
 .calc label{font-weight:600;display:block;margin-bottom:6px}
 .calc input[type=range]{width:100%;accent-color:var(--green)}
 .seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.seg button{min-height:44px;padding:0 16px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font:600 .95rem Inter,sans-serif;cursor:pointer}
+.seg button{min-height:44px;padding:0 16px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font:600 .95rem Barlow,sans-serif;cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
-.big-num{font-family:Fraunces,Georgia,serif;font-size:2.6rem;font-weight:600;line-height:1}
+.big-num{font-family:'Barlow Condensed',Impact,sans-serif;font-size:2.6rem;font-weight:600;line-height:1}
 .small{font-size:.88rem;color:var(--muted)}
 
 /* guests */
@@ -111,7 +116,7 @@ nav a:hover{background:var(--green-soft)}
 .linkcard{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:border-color .15s}
 .linkcard:hover{border-color:var(--green)}
 .linkcard small{display:block;color:var(--green);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.75rem}
-.linkcard b{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.15rem;display:block;margin-top:2px}
+.linkcard b{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:600;font-size:1.15rem;display:block;margin-top:2px}
 .linkcard span{color:var(--muted);font-size:.92rem}
 
 .steps{counter-reset:s;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
@@ -124,10 +129,10 @@ nav a:hover{background:var(--green-soft)}
 .board{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:22px}
 .col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
 .col h3{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.col h3 span{color:var(--muted);font-family:Inter,sans-serif;font-weight:600;font-size:.95rem}
+.col h3 span{color:var(--muted);font-family:Barlow,sans-serif;font-weight:600;font-size:.95rem}
 .dot{display:inline-block;width:12px;height:12px;border-radius:4px}
 .col .chips{flex-direction:column;align-items:stretch}
-.chip{border:0;font:500 .98rem Inter,sans-serif;color:var(--ink);text-align:left;min-height:40px}
+.chip{border:0;font:500 .98rem Barlow,sans-serif;color:var(--ink);text-align:left;min-height:40px}
 button.chip{cursor:pointer}
 button.chip:hover{outline:2px solid var(--green)}
 .chip .meta2{margin-left:auto;font-size:.78rem;font-weight:600;color:var(--muted);padding-left:8px}
@@ -145,7 +150,7 @@ button.chip:hover{outline:2px solid var(--green)}
 /* countdown, calendar, notice, vans, map */
 .countdown{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
 .countdown div{background:var(--green);color:#fff;border-radius:12px;padding:10px 16px;min-width:84px;text-align:center}
-.countdown b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.8rem;line-height:1.1}
+.countdown b{display:block;font-family:'Barlow Condensed',Impact,sans-serif;font-size:1.8rem;line-height:1.1}
 .countdown span{font-size:.8rem;opacity:.85}
 .countdown p{flex-basis:100%;margin:2px 0 0}
 .cal{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px}
@@ -175,7 +180,7 @@ button.chip:hover{outline:2px solid var(--green)}
 .field{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;background:#fff;color:var(--ink)}
 .calc label{margin-top:0}
 .pred h3{display:flex;justify-content:space-between;gap:8px}
-.pred .actual{color:var(--green);font-family:Inter,sans-serif;font-size:.95rem;font-weight:700}
+.pred .actual{color:var(--green);font-family:Barlow,sans-serif;font-size:.95rem;font-weight:700}
 .pred ol{padding-left:20px;margin:10px 0 0}
 .pred li{padding:4px 0;color:var(--muted)}
 .pred li strong{color:var(--ink)}
@@ -187,8 +192,23 @@ button.chip:hover{outline:2px solid var(--green)}
 .wall .cap{display:block;font-size:.82rem;color:var(--muted);padding:6px 2px 0}
 .wx{text-align:center}
 .wx .icon{font-size:0;margin:6px auto}
-.wx b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.6rem}
+.wx b{display:block;font-family:'Barlow Condensed',Impact,sans-serif;font-size:1.6rem}
 footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+
+/* Theme: terracotta, cream and condensed capitals, inspired by The Standard, Pattaya */
+h1,h2,h3,.eyebrow,.btn,nav a,.tag,.stat b,.countdown b{font-family:'Barlow Condensed',Impact,sans-serif}
+h1,h2{text-transform:uppercase;letter-spacing:.01em;font-weight:700;line-height:1}
+h3{font-weight:600;letter-spacing:.01em}
+.eyebrow,.tag{text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.btn{border-radius:0!important;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.btn.ghost{border-width:2px}
+.card,.calc,.notice,.col,.sunset-card,.chip,.field,.seg button{border-radius:2px!important}
+.card img{border-radius:0!important}
+.hero-img,.hero-img img{border-radius:0!important}
+.brand{background:var(--green);color:#fff!important;padding:6px 12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;font-family:'Barlow Condensed',Impact,sans-serif}
+footer{background:var(--green)!important;color:#FBEDE6!important}
+footer a{color:#fff!important}
+h1{font-size:clamp(2.6rem,6vw,4.6rem)}
 </style>
 </head>
 <body>
@@ -239,7 +259,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
           <rect x="230" y="44" width="140" height="8" fill="#C8576B" class="stripe"/>
         </g>
       </g>
-      <rect y="112" width="600" height="58" fill="#1F5E46"/>
+      <rect y="112" width="600" height="58" fill="#2E6A78"/>
       <g class="waves" stroke="#F4C38A" stroke-linecap="round" opacity=".75">
         <line x1="250" y1="122" x2="350" y2="122" stroke-width="3"/>
         <line x1="268" y1="134" x2="332" y2="134" stroke-width="3"/>
@@ -258,10 +278,10 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     </div>
     <div class="cal">
       <span class="small" style="font-weight:600;color:var(--ink)">Add to your calendar:</span>
-      <a class="btn ghost" href="pattaya-weekend.ics">Weekend (.ics)</a>
-      <a class="btn ghost" href="pattaya-10k.ics">10K race (.ics)</a>
-      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pattaya%20Run%20Weekend&amp;dates=20270129/20270201&amp;location=The%20Standard%2C%20Pattaya%20Na%20Jomtien&amp;details=Sunset%20yacht%20Fri%2C%2010K%20Sat%205%3A45pm%2C%20Soi%206%2C%20Sanctuary%20of%20Truth%20Sun.">Google: weekend</a>
-      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pong%20Mabprachan%2010K&amp;dates=20270130T104500Z/20270130T121500Z&amp;location=Mabprachan%20Reservoir%20Public%20Park%2C%20Pong%2C%20Bang%20Lamung&amp;details=Race%20starts%205%3A45pm.%20Vans%20leave%20The%20Standard%20at%204%3A45pm.">Google: 10K</a>
+      <a class="btn ghost" href="pattaya-weekend.ics">Weekend · Apple/Outlook</a>
+      <a class="btn ghost" href="pattaya-10k.ics">10K · Apple/Outlook</a>
+      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pattaya%20Run%20Weekend&amp;dates=20270129/20270201&amp;location=The%20Standard%2C%20Pattaya%20Na%20Jomtien&amp;details=Sunset%20yacht%20Fri%2C%2010K%20Sat%205%3A45pm%2C%20Soi%206%2C%20Sanctuary%20of%20Truth%20Sun.">Weekend · Google</a>
+      <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pong%20Mabprachan%2010K&amp;dates=20270130T104500Z/20270130T121500Z&amp;location=Mabprachan%20Reservoir%20Public%20Park%2C%20Pong%2C%20Bang%20Lamung&amp;details=Race%20starts%205%3A45pm.%20Vans%20leave%20The%20Standard%20at%204%3A45pm.">10K · Google</a>
     </div>
   </div>
 </header>
@@ -587,7 +607,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
   <div class="wrap">
     <p class="eyebrow">Saturday 30 Jan · 10K</p>
     <h2>Finish-time predictions</h2>
-    <p class="lede">Runners guess their own time, everyone else bets on the runners. Predictions close at the 5:45pm start. After the race, finishers add their time and the board shows who was closest.</p>
+    <p class="lede">Guess any runner's finish time, your own included, and pick the forfeit you'll pay if you're the furthest off. Predictions close at the 5:45pm start. After the race, finishers add their time: the closest guess wins, and the furthest off pays up.</p>
     <div class="grid g2" style="margin-top:22px">
       <form id="predForm" class="calc" novalidate>
         <h3>Make a prediction</h3>
@@ -597,6 +617,18 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
         <select id="pRunner" class="field"></select>
         <label for="pTime" style="margin-top:12px">Finish time (mm:ss)</label>
         <input id="pTime" class="field" placeholder="52:30" maxlength="8">
+        <label for="pStake" style="margin-top:12px">If you're the furthest off, you'll…</label>
+        <select id="pStake" class="field">
+          <option value="">Choose your forfeit</option>
+          <option>Buy the first round on Soi 6</option>
+          <option>Buy everyone's post-race beer</option>
+          <option>Sing the first karaoke song</option>
+          <option>Run the van playlist home on Sunday</option>
+          <option>Buy the coconut round at the temple</option>
+          <option>Wear a medal saying "I guessed wrong" all night</option>
+          <option value="custom">Something else…</option>
+        </select>
+        <input id="pStakeCustom" class="field" placeholder="Your forfeit" maxlength="60" hidden style="margin-top:8px">
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
           <button class="btn" type="submit" id="pSubmit">Lock it in</button>
           <span class="small" id="pMsg" role="status"></span>
@@ -865,7 +897,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
 
   // map
   var places=[
-    {n:'The Standard, Pattaya Na Jomtien',d:'Our hotel · 8/12 Moo 2, Soi Na Jomtien 10',c:[12.849,100.905],col:'#1F5E46',q:'The Standard Pattaya Na Jomtien'},
+    {n:'The Standard, Pattaya Na Jomtien',d:'Our hotel · 8/12 Moo 2, Soi Na Jomtien 10',c:[12.849,100.905],col:'#C2462B',q:'The Standard Pattaya Na Jomtien'},
     {n:'Mabprachan Reservoir Public Park',d:'10K start and finish · Sat 5:45pm',c:[12.918,100.952],col:'#B4432A',q:'Mabprachan Reservoir Pattaya'},
     {n:'Soi 6',d:'Saturday night · central Pattaya',c:[12.9466,100.8875],col:'#7A3E8E',q:'Soi 6 Pattaya'},
     {n:'Sanctuary of Truth',d:'Sunday 2:30pm · on the way home',c:[12.9727,100.8890],col:'#A0711C',q:'Sanctuary of Truth Pattaya'},
@@ -947,25 +979,32 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
       else ps.sort(function(a,c){return a.seconds-c.seconds;});
       var ul=el('ul','');ul.style.cssText='list-style:none;padding:0;margin:8px 0 0';
       ps.forEach(function(p,i){
-        var li=el('li','');li.style.cssText='display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid rgba(0,0,0,.08)';
+        var li=el('li','');li.style.cssText='padding:6px 0;border-top:1px solid rgba(0,0,0,.08)';
+        var row=el('div','');row.style.cssText='display:flex;justify-content:space-between;gap:8px';
         var who=(same(p.by,r)?p.by+' (self)':p.by);
-        li.appendChild(el('span','',(res!=null&&i===0?'🏆 ':'')+who));
-        var t=fmt(p.seconds);if(res!=null){var off=Math.round(p.seconds-res);t+=' ('+(off>=0?'+':'−')+fmt(Math.abs(off))+')';}
-        li.appendChild(el('span','',t));ul.appendChild(li);
-        if(res!=null){var k=p.by.toLowerCase();score[k]=score[k]||{name:p.by,off:0,n:0};score[k].off+=Math.abs(p.seconds-res);score[k].n++;}
+        var last=res!=null&&ps.length>1&&i===ps.length-1;
+        row.appendChild(el('span','',(res!=null&&i===0?'\uD83C\uDFC6 ':'')+who));
+        var t=fmt(p.seconds);if(res!=null){var off=Math.round(p.seconds-res);t+=' ('+(off>=0?'+':'\u2212')+fmt(Math.abs(off))+')';}
+        row.appendChild(el('span','',t));li.appendChild(row);
+        if(p.stake){var st=el('div','small',(last?'Owes: ':'Stake: ')+p.stake);st.style.cssText='margin:2px 0 0;'+(last?'color:#9B2C2C;font-weight:600':'color:var(--muted)');li.appendChild(st);}
+        if(admin){var xb=el('button','','Remove');xb.type='button';xb.style.cssText='font-size:.75rem;margin-top:4px;background:none;border:1px solid var(--line);border-radius:6px;padding:2px 8px;cursor:pointer';
+          xb.addEventListener('click',function(){api('DELETE','api/predictions?by='+encodeURIComponent(p.by)+'&runner='+encodeURIComponent(p.runner)).then(loadPred);});li.appendChild(xb);}
+        ul.appendChild(li);
+        if(res!=null){var k=p.by.toLowerCase();score[k]=score[k]||{name:p.by,off:0,n:0,stake:p.stake};score[k].off+=Math.abs(p.seconds-res);score[k].n++;score[k].stake=p.stake||score[k].stake;}
       });
       b.appendChild(ul);
       if(admin&&res!=null){var x=el('button','btn','Clear time');x.type='button';x.style.marginTop='10px';x.addEventListener('click',function(){api('POST','api/results',{runner:r,time:''}).then(loadPred);});b.appendChild(x);}
       board.appendChild(card);
     });
     if(!R.length)board.appendChild(el('p','small','Runners appear here once they RSVP as going and running.'));
-    var best=Object.keys(score).map(function(k){return score[k];}).sort(function(a,c){return a.off/a.n-c.off/c.n;})[0];
+    var ranked=Object.keys(score).map(function(k){return score[k];}).sort(function(a,c){return a.off/a.n-c.off/c.n;}),best=ranked[0],worst=ranked.length>1?ranked[ranked.length-1]:null;
     var bp=$('bestPredictor');
-    if(best){bp.hidden=false;bp.textContent='Best predictor so far: '+best.name+', off by an average of '+fmt(best.off/best.n)+' across '+best.n+(best.n===1?' runner.':' runners.');}else bp.hidden=true;
+    if(best){bp.hidden=false;bp.textContent='Best predictor so far: '+best.name+', off by an average of '+fmt(best.off/best.n)+'.'+(worst?' Furthest off: '+worst.name+(worst.stake?', who owes: '+worst.stake+'.':'.'):'');}else bp.hidden=true;
   }
   function loadPred(){return api('GET','api/predictions').then(function(d){P=d;renderPred();}).catch(function(){});}
+  $('pStake').addEventListener('change',function(){var c=$('pStakeCustom');c.hidden=this.value!=='custom';if(!c.hidden)c.focus();});
   $('predForm').addEventListener('submit',function(e){e.preventDefault();var m=$('pMsg');m.textContent='Saving…';
-    api('POST','api/predictions',{by:$('pBy').value,runner:$('pRunner').value,time:$('pTime').value.trim()}).then(function(){m.textContent='Locked in. You can change it until the start.';$('pTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
+    api('POST','api/predictions',{by:$('pBy').value,runner:$('pRunner').value,time:$('pTime').value.trim(),stake:($('pStake').value==='custom'?$('pStakeCustom').value:$('pStake').value).trim()}).then(function(){m.textContent='Locked in. You can change it until the start.';$('pTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
   $('resForm').addEventListener('submit',function(e){e.preventDefault();var m=$('resMsg');m.textContent='Saving…';
     api('POST','api/results',{runner:$('rRunner').value,time:$('rTime').value.trim()}).then(function(){m.textContent='Nice run. Time added.';$('rTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
 
