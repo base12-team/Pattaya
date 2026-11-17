@@ -1,31 +1,116 @@
 {
   "guests": [
-    {"name": "Sam", "status": "going"},
-    {"name": "Chris", "status": "going"},
-    {"name": "Jesse", "status": "going"},
-    {"name": "Janine", "status": "going"},
-    {"name": "Nicole", "status": "going"},
-    {"name": "Yury", "status": "going"},
-    {"name": "Pat", "status": "going"},
-    {"name": "Kemji", "status": "going"},
-    {"name": "Muha", "status": "going"},
-    {"name": "Rhea", "status": "going"},
-    {"name": "Stefano", "status": "going"},
-    {"name": "Luis", "status": "going"},
-    {"name": "Cam", "status": "going"},
-    {"name": "Amit", "status": "going"},
-    {"name": "Jenny", "status": "going"},
-    {"name": "Ilhan", "status": "going"},
-    {"name": "Neil", "status": "going"},
-    {"name": "Laura", "status": "going"},
-    {"name": "Darryl", "status": "going"},
-    {"name": "Fabe", "status": "going"},
-    {"name": "Fabe's girlfriend", "status": "going"},
-    {"name": "Melissa", "status": "going"},
-    {"name": "Ali", "status": "going"},
-    {"name": "Marc", "status": "maybe", "note": "Probably skiing"},
-    {"name": "Taime", "status": "maybe", "note": "Probably skiing"},
-    {"name": "Joe", "status": "maybe", "note": "Probably skiing"},
-    {"name": "Lenny", "status": "maybe", "note": "Probably skiing"}
+    {
+      "name": "Sam",
+      "status": "going"
+    },
+    {
+      "name": "Chris",
+      "status": "none"
+    },
+    {
+      "name": "Jesse",
+      "status": "none"
+    },
+    {
+      "name": "Janine",
+      "status": "none"
+    },
+    {
+      "name": "Nicole",
+      "status": "none"
+    },
+    {
+      "name": "Yury",
+      "status": "none"
+    },
+    {
+      "name": "Pat",
+      "status": "none"
+    },
+    {
+      "name": "Kemji",
+      "status": "none"
+    },
+    {
+      "name": "Muha",
+      "status": "none"
+    },
+    {
+      "name": "Rhea",
+      "status": "none"
+    },
+    {
+      "name": "Stefano",
+      "status": "none"
+    },
+    {
+      "name": "Luis",
+      "status": "none"
+    },
+    {
+      "name": "Cam",
+      "status": "none"
+    },
+    {
+      "name": "Amit",
+      "status": "none"
+    },
+    {
+      "name": "Jenny",
+      "status": "none"
+    },
+    {
+      "name": "Ilhan",
+      "status": "none"
+    },
+    {
+      "name": "Neil",
+      "status": "none"
+    },
+    {
+      "name": "Laura",
+      "status": "none"
+    },
+    {
+      "name": "Darryl",
+      "status": "none"
+    },
+    {
+      "name": "Fabe",
+      "status": "none"
+    },
+    {
+      "name": "Fabe's girlfriend",
+      "status": "none"
+    },
+    {
+      "name": "Melissa",
+      "status": "none"
+    },
+    {
+      "name": "Ali",
+      "status": "none"
+    },
+    {
+      "name": "Marc",
+      "status": "maybe",
+      "note": "Probably skiing"
+    },
+    {
+      "name": "Taime",
+      "status": "maybe",
+      "note": "Probably skiing"
+    },
+    {
+      "name": "Joe",
+      "status": "maybe",
+      "note": "Probably skiing"
+    },
+    {
+      "name": "Lenny",
+      "status": "maybe",
+      "note": "Probably skiing"
+    }
   ]
 }
