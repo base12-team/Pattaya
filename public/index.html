@@ -262,6 +262,14 @@ nav.stack a:hover{background:var(--green);color:#fff}
 .hanger{display:none;width:96px;float:right;margin:-8px 0 0 16px;transform:rotate(6deg)}
 #soi6Lock:not([hidden])+.hanger{display:block}
 main img,section img,.gallery img,.gallery>*{border-radius:0!important}
+
+/* closing image */
+.closer{padding:0!important;align-items:stretch;display:grid;grid-template-columns:minmax(260px,1fr) 2.2fr;background:var(--green);color:#fff}
+.closer>img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;order:2}
+.closer-text{order:1;padding:6vh 3.5vw;display:flex;flex-direction:column;justify-content:flex-end}
+.closer h2{color:#fff;font-size:clamp(2.6rem,5vw,5rem);line-height:.92;margin:0 0 22px}
+.closer-btn{background:#fff!important;color:var(--green)!important;border-color:#fff!important;align-self:flex-start}
+@media (max-width:760px){.closer{grid-template-columns:1fr}.closer>img{order:1}.closer-text{order:2;padding:28px 20px 34px}}
 </style>
 </head>
 <body>
@@ -811,6 +819,13 @@ main img,section img,.gallery img,.gallery>*{border-radius:0!important}
   </div>
 </section>
 
+<section class="closer" aria-label="See you in Pattaya">
+  <img src="img/morning-after.jpg" alt="Sam and Chris in sunglasses with iced coffees and 10K finisher medals at the Sanctuary of Truth" loading="lazy">
+  <div class="closer-text">
+    <h2>No Regrets.<br>Some Regrets.</h2>
+    <a class="btn closer-btn" href="#rsvp">Lock It In</a>
+  </div>
+</section>
 <footer>
   <div class="wrap">Prices were checked 16 Nov 2026 and may change. The hotel price is the Booking.com/Trip.com rate for 29–31 Jan 2027. The yacht is $1,479 for 4 hours plus the $50.60 Flex Rate (free cancellation until 24 Jan). Vans, food and nightlife are estimates. Race details are from regis.run; Amex benefits from americanexpress.com.</div>
 </footer>
