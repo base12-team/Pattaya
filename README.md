@@ -64,3 +64,12 @@ Note: anyone with the link can reply for any name on the list. That's fine for a
 ```bash
 ADMIN_TOKEN=test node server.js   # http://localhost:3000
 ```
+
+## Predictions, photo wall, weather, sunset
+
+- **Predictions**: anyone can predict a runner's finish time until the race starts (`RACE_START`, default `2027-01-30T17:45:00+07:00`). From the start gun, runners can add their own chip time once; ask Sam (admin) to fix a wrong one. The board shows who was closest. Stored in `data/predictions.json`.
+- **Photo wall**: photos are shrunk in the browser to about 1600px and saved under `data/photos/`. The Soi 6 album is hidden from everyone except the admin until `SOI6_REVEAL` (default `2027-01-31T16:30:00+07:00`, when the vans leave). Admins can delete a photo from the lightbox.
+- **Weather**: shows typical late-January weather until 16 days out, then the live Open-Meteo forecast for 29–31 Jan.
+- **Sunset**: the sun in the hero rises from 16 Nov 2026 until 9:30am on 29 Jan 2027.
+
+To test the race-day features early, set `RACE_START` and `SOI6_REVEAL` in `.env` and restart.

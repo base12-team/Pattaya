@@ -62,10 +62,11 @@ function send(res, code, body, headers) {
   }, headers || {}));
   res.end(isObj ? JSON.stringify(body) : body);
 }
-function readBody(req) {
+function readBody(req, limit) {
+  limit = limit || 10000;
   return new Promise((resolve, reject) => {
     let data = '';
-    req.on('data', (c) => { data += c; if (data.length > 10000) { reject(new Error('too big')); req.destroy(); } });
+    req.on('data', (c) => { data += c; if (data.length > limit) { reject(new Error('too big')); req.destroy(); } });
     req.on('end', () => { try { resolve(JSON.parse(data || '{}')); } catch (e) { reject(e); } });
     req.on('error', reject);
   });
@@ -166,11 +167,128 @@ async function api(req, res, pathname) {
   return send(res, 404, { error: 'Not found' });
 }
 
+
+// ---------- predictions & results ----------
+const RACE_START = Date.parse(process.env.RACE_START || '2027-01-30T17:45:00+07:00');
+const SOI6_REVEAL = Date.parse(process.env.SOI6_REVEAL || '2027-01-31T16:30:00+07:00');
+const PRED_FILE = path.join(DATA_DIR, 'predictions.json');
+const PHOTO_META = path.join(DATA_DIR, 'photos.json');
+const PHOTO_DIR = path.join(DATA_DIR, 'photos');
+const ALBUMS = ['boat', 'race', 'soi6', 'other'];
+function readJson(file, fallback) { try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { return fallback; } }
+function writeJson(file, obj) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const tmp = file + '.' + process.pid + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(obj, null, 2));
+  fs.renameSync(tmp, file);
+}
+let preds = readJson(PRED_FILE, { predictions: [], results: {} });
+let photos = readJson(PHOTO_META, { photos: [] });
+function parseTime(t) {
+  // accepts "52:30", "1:02:30" or seconds
+  if (typeof t === 'number' && t > 0 && t < 4 * 3600) return Math.round(t);
+  const m = String(t || '').trim().match(/^(?:(\d{1,2}):)?(\d{1,2}):(\d{2})$/);
+  if (!m) return null;
+  const secs = (Number(m[1] || 0) * 3600) + Number(m[2]) * 60 + Number(m[3]);
+  return secs > 0 && secs < 4 * 3600 && Number(m[3]) < 60 ? secs : null;
+}
+const cleanName = (n) => (typeof n === 'string' ? n.replace(/\s+/g, ' ').trim().slice(0, 40) : '');
+const soi6Open = (req) => Date.now() >= SOI6_REVEAL || isAdmin(req);
+
+async function api2(req, res, pathname) {
+  if (req.method === 'GET' && pathname === '/api/predictions') {
+    return send(res, 200, { raceStart: new Date(RACE_START).toISOString(), locked: Date.now() >= RACE_START, predictions: preds.predictions, results: preds.results });
+  }
+  if (req.method === 'POST' && pathname === '/api/predictions') {
+    if (Date.now() >= RACE_START && !isAdmin(req)) return send(res, 400, { error: 'Predictions closed when the race started.' });
+    if (rateLimited(req)) return send(res, 429, { error: 'Too many from here. Try again in a few minutes.' });
+    let b; try { b = await readBody(req); } catch (e) { return send(res, 400, { error: 'Bad request' }); }
+    const by = cleanName(b.by), runner = cleanName(b.runner), secs = parseTime(b.time);
+    if (!by || !runner) return send(res, 400, { error: 'Pick your name and a runner.' });
+    if (!secs) return send(res, 400, { error: 'Enter a time like 52:30.' });
+    const i = preds.predictions.findIndex((p) => sameName(p.by, by) && sameName(p.runner, runner));
+    const rec = { by, runner, seconds: secs, at: new Date().toISOString() };
+    if (i >= 0) preds.predictions[i] = rec; else {
+      if (preds.predictions.length >= 2000) return send(res, 400, { error: 'Too many predictions.' });
+      preds.predictions.push(rec);
+    }
+    writeJson(PRED_FILE, preds);
+    return send(res, 200, { ok: true });
+  }
+  if (req.method === 'POST' && pathname === '/api/results') {
+    if (Date.now() < RACE_START && !isAdmin(req)) return send(res, 400, { error: 'Finish times open when the race starts.' });
+    if (rateLimited(req)) return send(res, 429, { error: 'Too many from here. Try again in a few minutes.' });
+    let b; try { b = await readBody(req); } catch (e) { return send(res, 400, { error: 'Bad request' }); }
+    const runner = cleanName(b.runner);
+    if (!runner) return send(res, 400, { error: 'Pick a runner.' });
+    if (b.time === '' && isAdmin(req)) { delete preds.results[runner]; writeJson(PRED_FILE, preds); return send(res, 200, { ok: true }); }
+    const secs = parseTime(b.time);
+    if (!secs) return send(res, 400, { error: 'Enter a time like 52:30.' });
+    const existing = Object.keys(preds.results).find((k) => sameName(k, runner));
+    if (existing && !isAdmin(req)) return send(res, 400, { error: 'That time is already in. Ask Sam to change it.' });
+    preds.results[existing || runner] = secs;
+    writeJson(PRED_FILE, preds);
+    return send(res, 200, { ok: true });
+  }
+
+  // ---------- photos ----------
+  if (req.method === 'GET' && pathname === '/api/photos') {
+    const open = soi6Open(req);
+    return send(res, 200, {
+      soi6Reveal: new Date(SOI6_REVEAL).toISOString(), soi6Open: open,
+      soi6Count: photos.photos.filter((p) => p.album === 'soi6').length,
+      photos: photos.photos.filter((p) => open || p.album !== 'soi6'),
+    });
+  }
+  if (req.method === 'POST' && pathname === '/api/photos') {
+    if (rateLimited(req)) return send(res, 429, { error: 'Too many uploads from here. Try again in a few minutes.' });
+    let b; try { b = await readBody(req, 6 * 1024 * 1024); } catch (e) { return send(res, 413, { error: 'That photo is too big.' }); }
+    const by = cleanName(b.by), album = ALBUMS.includes(b.album) ? b.album : 'other';
+    const caption = typeof b.caption === 'string' ? b.caption.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+    const m = String(b.image || '').match(/^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/);
+    if (!by) return send(res, 400, { error: 'Add your name.' });
+    if (!m) return send(res, 400, { error: 'Upload a photo.' });
+    const buf = Buffer.from(m[1], 'base64');
+    if (buf.length < 100 || buf[0] !== 0xff || buf[1] !== 0xd8) return send(res, 400, { error: 'That doesn’t look like a photo.' });
+    if (photos.photos.length >= 1000) return send(res, 400, { error: 'The photo wall is full.' });
+    const id = crypto.randomBytes(9).toString('hex');
+    fs.mkdirSync(PHOTO_DIR, { recursive: true });
+    fs.writeFileSync(path.join(PHOTO_DIR, id + '.jpg'), buf);
+    photos.photos.push({ id, by, album, caption, at: new Date().toISOString() });
+    writeJson(PHOTO_META, photos);
+    return send(res, 200, { ok: true, id, hidden: album === 'soi6' && !soi6Open(req) });
+  }
+  if (req.method === 'DELETE' && pathname.startsWith('/api/photos/')) {
+    if (!isAdmin(req)) return send(res, 401, { error: 'Admin only' });
+    const id = pathname.slice('/api/photos/'.length);
+    const i = photos.photos.findIndex((p) => p.id === id);
+    if (i < 0) return send(res, 404, { error: 'Not found' });
+    photos.photos.splice(i, 1);
+    writeJson(PHOTO_META, photos);
+    fs.rm(path.join(PHOTO_DIR, id + '.jpg'), () => {});
+    return send(res, 200, { ok: true });
+  }
+  return null;
+}
+
+function servePhoto(req, res, pathname) {
+  const m = pathname.match(/^\/photos\/([a-f0-9]{18})\.jpg$/);
+  if (!m) return send(res, 404, 'Not found');
+  const meta = photos.photos.find((p) => p.id === m[1]);
+  if (!meta || (meta.album === 'soi6' && !soi6Open(req))) return send(res, 404, 'Not found');
+  fs.stat(path.join(PHOTO_DIR, m[1] + '.jpg'), (err) => {
+    if (err) return send(res, 404, 'Not found');
+    res.writeHead(200, { 'Content-Type': 'image/jpeg', 'Cache-Control': meta.album === 'soi6' ? 'private, no-store' : 'public, max-age=86400' });
+    fs.createReadStream(path.join(PHOTO_DIR, m[1] + '.jpg')).pipe(res);
+  });
+}
+
 const server = http.createServer((req, res) => {
   const { pathname } = new URL(req.url, 'http://localhost');
   if (pathname === '/healthz') return send(res, 200, 'ok');
+  if (pathname.startsWith('/photos/')) return servePhoto(req, res, pathname);
   if (pathname.startsWith('/api/')) {
-    return api(req, res, pathname).catch((e) => { console.error(e); send(res, 500, { error: 'Server error' }); });
+    return api2(req, res, pathname).then((done) => done === null ? api(req, res, pathname) : done).catch((e) => { console.error(e); send(res, 500, { error: 'Server error' }); });
   }
   if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, 'Method not allowed');
   serveStatic(req, res, pathname);

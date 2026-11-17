@@ -159,6 +159,34 @@ button.chip:hover{outline:2px solid var(--green)}
 .place{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .pin{flex:0 0 28px;height:28px;border-radius:999px;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.85rem}
 .place p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+
+/* sunset, predictions, photos, weather */
+.sunset-card{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;max-width:640px}
+#sunset{width:100%;height:auto;display:block;border-radius:10px}
+.sun-glow{transition:transform 1.2s ease}
+@media (prefers-reduced-motion:no-preference){
+  .waves line{animation:shimmer 3.2s ease-in-out infinite}
+  .waves line:nth-child(2){animation-delay:.4s}.waves line:nth-child(3){animation-delay:.8s}.waves line:nth-child(4){animation-delay:1.2s}
+  @keyframes shimmer{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:1;transform:translateX(6px)}}
+  .sun-glow circle{animation:glow 4s ease-in-out infinite}
+  @keyframes glow{0%,100%{filter:drop-shadow(0 0 6px rgba(255,200,120,.5))}50%{filter:drop-shadow(0 0 18px rgba(255,200,120,.9))}}
+}
+.field{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;background:#fff;color:var(--ink)}
+.calc label{margin-top:0}
+.pred h3{display:flex;justify-content:space-between;gap:8px}
+.pred .actual{color:var(--green);font-family:Inter,sans-serif;font-size:.95rem;font-weight:700}
+.pred ol{padding-left:20px;margin:10px 0 0}
+.pred li{padding:4px 0;color:var(--muted)}
+.pred li strong{color:var(--ink)}
+.pred li.win{color:var(--green);font-weight:600}
+.badge{display:inline-block;background:var(--green);color:#fff;border-radius:6px;font-size:.72rem;font-weight:700;padding:2px 6px;margin-left:6px;vertical-align:1px}
+.wall{columns:4 220px;column-gap:12px;margin-top:18px}
+.wall button{display:block;width:100%;margin:0 0 12px;padding:0;border:0;background:none;cursor:zoom-in;break-inside:avoid;border-radius:12px;overflow:hidden;text-align:left}
+.wall img{width:100%;height:auto;display:block}
+.wall .cap{display:block;font-size:.82rem;color:var(--muted);padding:6px 2px 0}
+.wx{text-align:center}
+.wx .icon{font-size:0;margin:6px auto}
+.wx b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.6rem}
 footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
 </style>
 </head>
@@ -176,6 +204,9 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     <a href="#costs">Costs</a>
     <a href="#deals">Hotel deals</a>
     <a href="#rsvp">RSVP</a>
+    <a href="#predictions">Predictions</a>
+    <a href="#photos">Photos</a>
+    <a href="#weather">Weather</a>
     <a href="#links">Links</a>
   </div>
 </nav>
@@ -191,6 +222,33 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
       <div class="stat"><b>≈ ฿9,700</b><span>fixed costs per person</span></div>
       <div class="stat"><b>5:45pm Sat</b><span>10K race start</span></div>
     </div>
+    <div class="sunset-card">
+    <svg id="sunset" viewBox="0 0 600 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A retro sun that rises a little more each day until the trip">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B3A55"/><stop offset="0.55" stop-color="#C8576B"/><stop offset="1" stop-color="#F4A261"/></linearGradient>
+        <linearGradient id="sunfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE29A"/><stop offset="1" stop-color="#F07A4F"/></linearGradient>
+        <clipPath id="abovesea"><rect x="0" y="0" width="600" height="112"/></clipPath>
+      </defs>
+      <rect width="600" height="112" fill="url(#sky)"/>
+      <g clip-path="url(#abovesea)">
+        <g id="sunG" class="sun-glow">
+          <circle cx="300" cy="0" r="58" fill="url(#sunfill)"/>
+          <rect x="230" y="18" width="140" height="4" fill="#C8576B" class="stripe"/>
+          <rect x="230" y="30" width="140" height="6" fill="#C8576B" class="stripe"/>
+          <rect x="230" y="44" width="140" height="8" fill="#C8576B" class="stripe"/>
+        </g>
+      </g>
+      <rect y="112" width="600" height="58" fill="#1F5E46"/>
+      <g class="waves" stroke="#F4C38A" stroke-linecap="round" opacity=".75">
+        <line x1="250" y1="122" x2="350" y2="122" stroke-width="3"/>
+        <line x1="268" y1="134" x2="332" y2="134" stroke-width="3"/>
+        <line x1="284" y1="146" x2="316" y2="146" stroke-width="3"/>
+        <line x1="294" y1="158" x2="306" y2="158" stroke-width="3"/>
+      </g>
+      <g fill="#14332A"><path d="M0 112 L40 92 L70 104 L110 86 L150 112 Z"/><path d="M470 112 L520 90 L560 100 L600 88 L600 112 Z"/></g>
+    </svg>
+    <p class="small" id="sunCaption" style="margin:8px 0 0"></p>
+  </div>
     <div class="countdown" id="countdown" aria-live="off">
       <div><b id="cdD">–</b><span>days</span></div>
       <div><b id="cdH">–</b><span>hours</span></div>
@@ -420,28 +478,23 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
     </div>
 
     <h3 style="margin-top:36px;font-size:1.5rem">Cheaper options nearby</h3>
-    <p class="lede" style="margin-top:6px">Around half the price of The Standard or less, all in Na Jomtien or Jomtien. Prices are per room per night for 29–31 Jan, checked 16 Nov 2026 on Google Hotels.</p>
-    <div class="grid g3" style="margin-top:18px">
+    <p class="lede" style="margin-top:6px">Under half the price of The Standard, both within walking distance (about 1km). Prices are per room per night for 29–31 Jan, checked 16 Nov 2026 on Google Hotels.</p>
+    <div class="grid g2" style="margin-top:18px">
       <div class="card"><div class="body">
         <p class="tag">5-star · ≈ ฿2,200/night</p>
         <h3>Bayphere Hotel Pattaya</h3>
-        <p>Beachfront on Na Jomtien Soi 18, a few minutes' drive from The Standard. Rooftop pool and sky bar. Guest rating 4.3 (2,000+ reviews). Breakfast extra.</p>
+        <p>Beachfront on Na Jomtien Soi 18, about 900m south of The Standard: a 10–15 minute walk along the beach road. Rooftop pool and sky bar. Guest rating 4.3 (2,000+ reviews). Breakfast extra.</p>
         <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Bayphere%20Hotel%20Pattaya">See prices</a></p>
       </div></div>
       <div class="card"><div class="body">
         <p class="tag">4.5-star · ≈ ฿1,400/night</p>
         <h3>Saisawan Beach Resort</h3>
-        <p>Beachfront in Na Jomtien, remodelled in 2024. Spa, beach bars and a pool. Guest rating 4.1. Breakfast included.</p>
+        <p>Beachfront in Na Jomtien, about 1km north-west of The Standard: a 12–15 minute walk. Remodelled in 2024, with a spa, beach bars and a pool. Guest rating 4.1. Breakfast included.</p>
         <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Saisawan%20Beach%20Resort%20Na%20Jomtien">See prices</a></p>
       </div></div>
-      <div class="card"><div class="body">
-        <p class="tag">Aparthotel · ≈ ฿2,300/night</p>
-        <h3>Fifth Pattaya Jomtien</h3>
-        <p>In central Jomtien, about 150m from the beach and closer to Soi 6 and the nightlife, but around 20 minutes' drive from The Standard. Two pools. Guest rating 4.3.</p>
-        <p style="margin-top:12px"><a href="https://www.google.com/travel/search?q=Fifth%20Pattaya%20Jomtien">See prices</a></p>
-      </div></div>
+
     </div>
-    <p class="small" style="margin-top:10px">Staying elsewhere? Still pick a van: these are all on the way, so we can drop you at your hotel.</p>
+    <p class="small" style="margin-top:10px">Staying at one of these? Still pick a van: they're on the way, so we can drop you at your hotel.</p>
   </div>
 </section>
 
@@ -525,6 +578,93 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
         <p class="small" id="edErr" role="alert" style="color:#9B3B3B;margin:10px 0 0"></p>
       </div>
     </div>
+  </div>
+</section>
+
+
+<section id="predictions">
+  <div class="wrap">
+    <p class="eyebrow">Saturday 30 Jan · 10K</p>
+    <h2>Finish-time predictions</h2>
+    <p class="lede">Runners guess their own time, everyone else bets on the runners. Predictions close at the 5:45pm start. After the race, finishers add their time and the board shows who was closest.</p>
+    <div class="grid g2" style="margin-top:22px">
+      <form id="predForm" class="calc" novalidate>
+        <h3>Make a prediction</h3>
+        <label for="pBy" style="margin-top:12px">Your name</label>
+        <select id="pBy" class="field"></select>
+        <label for="pRunner" style="margin-top:12px">Runner</label>
+        <select id="pRunner" class="field"></select>
+        <label for="pTime" style="margin-top:12px">Finish time (mm:ss)</label>
+        <input id="pTime" class="field" placeholder="52:30" maxlength="8">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
+          <button class="btn" type="submit" id="pSubmit">Lock it in</button>
+          <span class="small" id="pMsg" role="status"></span>
+        </div>
+      </form>
+      <form id="resForm" class="calc" novalidate>
+        <h3>Finished? Add your time</h3>
+        <p class="small" id="resNote" style="margin:4px 0 0">Opens when the race starts.</p>
+        <label for="rRunner" style="margin-top:12px">Runner</label>
+        <select id="rRunner" class="field"></select>
+        <label for="rTime" style="margin-top:12px">Chip time (mm:ss or h:mm:ss)</label>
+        <input id="rTime" class="field" placeholder="51:48" maxlength="8">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
+          <button class="btn" type="submit" id="resSubmit">Add finish time</button>
+          <span class="small" id="resMsg" role="status"></span>
+        </div>
+      </form>
+    </div>
+    <div class="grid g3" id="predBoard" style="margin-top:22px"></div>
+    <div id="bestPredictor" class="notice" hidden style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section id="photos" style="background:#F1EBDD">
+  <div class="wrap">
+    <p class="eyebrow">Photo wall</p>
+    <h2>Everyone's photos, in one place</h2>
+    <p class="lede">Add your photos from the boat, the race and the weekend. The Soi 6 album stays locked until the vans leave on Sunday at 4:30pm.</p>
+    <form id="photoForm" class="calc" style="margin-top:22px" novalidate>
+      <div class="grid g3" style="gap:14px">
+        <div><label for="phBy">Your name</label><select id="phBy" class="field"></select></div>
+        <div><label for="phAlbum">Album</label>
+          <select id="phAlbum" class="field"><option value="boat">The boat</option><option value="race">The race</option><option value="soi6">Soi 6 (locked until Sunday)</option><option value="other">Everything else</option></select></div>
+        <div><label for="phCaption">Caption (optional)</label><input id="phCaption" class="field" maxlength="80"></div>
+      </div>
+      <label for="phFile" style="margin-top:14px">Photos</label>
+      <input id="phFile" type="file" accept="image/*" multiple class="field" style="padding:10px">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
+        <button class="btn" type="submit" id="phSubmit">Upload</button>
+        <span class="small" id="phMsg" role="status"></span>
+      </div>
+    </form>
+    <div class="seg" id="albumTabs" role="group" aria-label="Albums" style="margin-top:22px">
+      <button type="button" data-a="all" aria-pressed="true">All</button>
+      <button type="button" data-a="boat" aria-pressed="false">The boat</button>
+      <button type="button" data-a="race" aria-pressed="false">The race</button>
+      <button type="button" data-a="soi6" aria-pressed="false">Soi 6</button>
+      <button type="button" data-a="other" aria-pressed="false">Everything else</button>
+    </div>
+    <div id="soi6Lock" class="notice" hidden style="margin-top:14px"></div>
+    <div class="wall" id="wall"></div>
+    <p class="small" id="wallEmpty">No photos yet. Be the first.</p>
+    <div id="lightbox" class="editor" hidden role="dialog" aria-modal="true" aria-label="Photo">
+      <figure style="margin:0;max-width:960px;width:100%;text-align:center">
+        <img id="lbImg" alt="" style="max-width:100%;max-height:80vh;border-radius:12px;margin:0 auto">
+        <figcaption id="lbCap" style="color:#fff;margin-top:10px"></figcaption>
+        <button class="btn" type="button" id="lbClose" style="margin-top:12px">Close</button>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="weather">
+  <div class="wrap">
+    <p class="eyebrow">29–31 January · Na Jomtien</p>
+    <h2>Weather</h2>
+    <p class="lede" id="wxLede">The forecast goes live about two weeks before the trip. Until then, here's what late January is usually like.</p>
+    <div class="grid g3" id="wxDays" style="margin-top:22px"></div>
+    <p class="small" id="wxNote" style="margin-top:10px"></p>
   </div>
 </section>
 
@@ -700,7 +840,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
 
   function load(){
     return api('GET','api/rsvps').then(function(d){
-      guests=(d.guests||[]);render();
+      guests=(d.guests||[]);render();window.pattayaGuests=guests;document.dispatchEvent(new Event('pattaya-guests'));
       note.textContent=(admin?'Admin mode: tap a name to edit. ':'')+(d.updatedAt?'Last reply '+new Date(d.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'.':'');
     }).catch(function(){note.textContent='Couldn’t load replies. Refresh to try again.';});
   }
@@ -751,5 +891,161 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
   map.fitBounds(group,{padding:[30,30]});
 })();
 </script>
+<script>
+(function(){
+  var token='';try{token=localStorage.getItem('pattayaAdmin')||'';}catch(e){}
+  var admin=false;
+  function api(method,url,body){
+    var h={'Content-Type':'application/json'};if(token)h['X-Admin-Token']=token;
+    return fetch(url,{method:method,headers:h,body:body?JSON.stringify(body):undefined}).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(d){if(!r.ok)throw new Error(d.error||'Something went wrong');return d;});
+    });
+  }
+  function $(id){return document.getElementById(id);}
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;}
+  function fmt(s){if(s==null)return '–';s=Math.round(s);var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0');}
+  function same(a,b){return String(a).trim().toLowerCase()===String(b).trim().toLowerCase();}
+  function opts(sel,names,ph){var v=sel.value;sel.textContent='';var o=el('option','',ph);o.value='';sel.appendChild(o);names.forEach(function(n){var o=el('option','',n);o.value=n;sel.appendChild(o);});if(names.indexOf(v)>=0)sel.value=v;}
+  var guests=window.pattayaGuests||[];
+  function names(){return guests.filter(function(g){return g.status!=='no';}).map(function(g){return g.name;}).sort();}
+  function runners(){return guests.filter(function(g){return g.role==='running'&&g.status==='going';}).map(function(g){return g.name;}).sort();}
+
+  /* ---------- Sunset ---------- */
+  (function(){
+    var start=Date.parse('2026-11-16T00:00:00+07:00'),end=Date.parse('2027-01-29T09:30:00+07:00');
+    function draw(){
+      var now=Date.now(),p=Math.max(0,Math.min(1,(now-start)/(end-start)));
+      var y=168-p*128; /* 168 = just under the horizon, 40 = high in the sky */
+      $('sunG').style.transform='translateY('+y.toFixed(1)+'px)';
+      var d=Math.ceil((end-now)/864e5),cap=$('sunCaption');
+      if(now>=end)cap.textContent='The sun is up. See you in Pattaya.';
+      else cap.textContent='The sun rises a little more every day. '+d+(d===1?' day':' days')+' to go, '+Math.round(p*100)+'% of the way up.';
+    }
+    draw();setInterval(draw,36e5);
+  })();
+
+  /* ---------- Predictions ---------- */
+  var P={predictions:[],results:{},locked:false};
+  function renderPred(){
+    var R=runners(),N=names();
+    opts($('pBy'),N,'Choose your name');opts($('pRunner'),R,R.length?'Choose a runner':'No runners yet');opts($('rRunner'),R,'Choose a runner');
+    $('pSubmit').disabled=P.locked&&!admin;$('pTime').disabled=P.locked&&!admin;
+    var resOpen=P.locked||admin;$('resSubmit').disabled=!resOpen;$('rTime').disabled=!resOpen;
+    $('resNote').textContent=resOpen?'Enter your chip time once you’re through the finish.':'Opens when the race starts at 5:45pm on Saturday.';
+    if(P.locked&&!admin)$('pMsg').textContent='Predictions closed at the start gun.';
+    var board=$('predBoard');board.textContent='';
+    var score={};
+    R.forEach(function(r){
+      var ps=P.predictions.filter(function(p){return same(p.runner,r);});
+      var key=Object.keys(P.results).filter(function(k){return same(k,r);})[0],res=key?P.results[key]:null;
+      var card=el('div','card'),b=el('div','body');card.appendChild(b);
+      b.appendChild(el('p','tag',res!=null?'Finished · '+fmt(res):(ps.length+(ps.length===1?' prediction':' predictions'))));
+      b.appendChild(el('h3','',r));
+      if(!ps.length)b.appendChild(el('p','small','No guesses yet.'));
+      if(res!=null)ps.sort(function(a,c){return Math.abs(a.seconds-res)-Math.abs(c.seconds-res);});
+      else ps.sort(function(a,c){return a.seconds-c.seconds;});
+      var ul=el('ul','');ul.style.cssText='list-style:none;padding:0;margin:8px 0 0';
+      ps.forEach(function(p,i){
+        var li=el('li','');li.style.cssText='display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid rgba(0,0,0,.08)';
+        var who=(same(p.by,r)?p.by+' (self)':p.by);
+        li.appendChild(el('span','',(res!=null&&i===0?'🏆 ':'')+who));
+        var t=fmt(p.seconds);if(res!=null){var off=Math.round(p.seconds-res);t+=' ('+(off>=0?'+':'−')+fmt(Math.abs(off))+')';}
+        li.appendChild(el('span','',t));ul.appendChild(li);
+        if(res!=null){var k=p.by.toLowerCase();score[k]=score[k]||{name:p.by,off:0,n:0};score[k].off+=Math.abs(p.seconds-res);score[k].n++;}
+      });
+      b.appendChild(ul);
+      if(admin&&res!=null){var x=el('button','btn','Clear time');x.type='button';x.style.marginTop='10px';x.addEventListener('click',function(){api('POST','api/results',{runner:r,time:''}).then(loadPred);});b.appendChild(x);}
+      board.appendChild(card);
+    });
+    if(!R.length)board.appendChild(el('p','small','Runners appear here once they RSVP as going and running.'));
+    var best=Object.keys(score).map(function(k){return score[k];}).sort(function(a,c){return a.off/a.n-c.off/c.n;})[0];
+    var bp=$('bestPredictor');
+    if(best){bp.hidden=false;bp.textContent='Best predictor so far: '+best.name+', off by an average of '+fmt(best.off/best.n)+' across '+best.n+(best.n===1?' runner.':' runners.');}else bp.hidden=true;
+  }
+  function loadPred(){return api('GET','api/predictions').then(function(d){P=d;renderPred();}).catch(function(){});}
+  $('predForm').addEventListener('submit',function(e){e.preventDefault();var m=$('pMsg');m.textContent='Saving…';
+    api('POST','api/predictions',{by:$('pBy').value,runner:$('pRunner').value,time:$('pTime').value.trim()}).then(function(){m.textContent='Locked in. You can change it until the start.';$('pTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
+  $('resForm').addEventListener('submit',function(e){e.preventDefault();var m=$('resMsg');m.textContent='Saving…';
+    api('POST','api/results',{runner:$('rRunner').value,time:$('rTime').value.trim()}).then(function(){m.textContent='Nice run. Time added.';$('rTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
+
+  /* ---------- Photo wall ---------- */
+  var PH={photos:[],soi6Open:false,soi6Count:0},album='all';
+  var albumName={boat:'The boat',race:'The race',soi6:'Soi 6',other:'Everything else'};
+  function renderPhotos(){
+    opts($('phBy'),names(),'Choose your name');
+    var wall=$('wall');wall.textContent='';
+    var list=PH.photos.filter(function(p){return album==='all'||p.album===album;}).slice().reverse();
+    list.forEach(function(p){
+      var b=el('button','');b.type='button';b.setAttribute('aria-label','Open photo by '+p.by);
+      var img=new Image();img.loading='lazy';img.src='photos/'+p.id+'.jpg';img.alt=p.caption||('Photo by '+p.by);b.appendChild(img);
+      b.appendChild(el('span','cap',(p.caption?p.caption+' · ':'')+p.by+' · '+albumName[p.album]));
+      b.addEventListener('click',function(){openLb(p);});wall.appendChild(b);
+    });
+    $('wallEmpty').hidden=list.length>0||(album==='soi6'&&!PH.soi6Open);
+    var lock=$('soi6Lock');
+    if(!PH.soi6Open&&(album==='all'||album==='soi6')){
+      lock.hidden=false;var r=new Date(PH.soi6Reveal||'2027-01-31T16:30:00+07:00');
+      lock.textContent='🔒 Soi 6 album: '+PH.soi6Count+(PH.soi6Count===1?' photo':' photos')+' waiting. Unlocks Sunday 31 Jan at 4:30pm, when the vans leave for Bangkok. What happens on Soi 6 stays hidden until then.';
+    } else lock.hidden=true;
+  }
+  function loadPhotos(){return api('GET','api/photos').then(function(d){PH=d;renderPhotos();}).catch(function(){});}
+  [].forEach.call(document.querySelectorAll('#albumTabs button'),function(b){b.addEventListener('click',function(){
+    album=b.getAttribute('data-a');[].forEach.call(document.querySelectorAll('#albumTabs button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});renderPhotos();});});
+  function shrink(file){return new Promise(function(ok,bad){
+    var u=URL.createObjectURL(file),img=new Image();
+    img.onload=function(){var s=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',0.82));};
+    img.onerror=function(){URL.revokeObjectURL(u);bad(new Error('Couldn’t read '+file.name+'. Try a JPEG or PNG.'));};img.src=u;});}
+  $('photoForm').addEventListener('submit',function(e){e.preventDefault();
+    var m=$('phMsg'),files=[].slice.call($('phFile').files||[]),by=$('phBy').value,al=$('phAlbum').value,cap=$('phCaption').value.trim();
+    if(!by){m.textContent='Choose your name first.';return;}if(!files.length){m.textContent='Choose a photo.';return;}
+    $('phSubmit').disabled=true;var done=0,hidden=0;
+    files.reduce(function(pr,f){return pr.then(function(){m.textContent='Uploading '+(done+1)+' of '+files.length+'…';
+      return shrink(f).then(function(img){return api('POST','api/photos',{by:by,album:al,caption:cap,image:img});}).then(function(r){done++;if(r.hidden)hidden++;});});},Promise.resolve())
+    .then(function(){m.textContent=done+(done===1?' photo':' photos')+' added'+(hidden?'. Soi 6 photos stay hidden until Sunday 4:30pm.':'.');$('phFile').value='';$('phCaption').value='';})
+    .catch(function(x){m.textContent=x.message;}).then(function(){$('phSubmit').disabled=false;loadPhotos();});});
+  var lb=$('lightbox'),cur=null;
+  function openLb(p){cur=p;$('lbImg').src='photos/'+p.id+'.jpg';$('lbImg').alt=p.caption||('Photo by '+p.by);$('lbCap').textContent=(p.caption?p.caption+' · ':'')+p.by;
+    var del=$('lbDel');if(del)del.hidden=!admin;lb.hidden=false;$('lbClose').focus();}
+  function closeLb(){lb.hidden=true;$('lbImg').src='';}
+  $('lbClose').addEventListener('click',closeLb);lb.addEventListener('click',function(e){if(e.target===lb)closeLb();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)closeLb();});
+  var del=el('button','btn','Delete photo');del.type='button';del.id='lbDel';del.hidden=true;del.style.cssText='margin:12px 0 0 8px;background:#9B2C2C';
+  $('lbClose').parentNode.appendChild(del);
+  del.addEventListener('click',function(){if(!cur)return;api('DELETE','api/photos/'+cur.id).then(function(){closeLb();loadPhotos();}).catch(function(x){alert(x.message);});});
+
+  /* ---------- Weather ---------- */
+  (function(){
+    var days=[['2027-01-29','Fri 29 Jan','Boat day'],['2027-01-30','Sat 30 Jan','Race day'],['2027-01-31','Sun 31 Jan','Temple and home']];
+    var WMO={0:['☀️','Clear'],1:['🌤️','Mostly clear'],2:['⛅','Partly cloudy'],3:['☁️','Cloudy'],45:['🌫️','Hazy'],48:['🌫️','Hazy'],51:['🌦️','Drizzle'],53:['🌦️','Drizzle'],55:['🌦️','Drizzle'],61:['🌧️','Light rain'],63:['🌧️','Rain'],65:['🌧️','Heavy rain'],80:['🌦️','Showers'],81:['🌧️','Showers'],82:['⛈️','Heavy showers'],95:['⛈️','Thunderstorm'],96:['⛈️','Thunderstorm'],99:['⛈️','Thunderstorm']};
+    function card(d,icon,desc,hi,lo,rain,typical){
+      var c=el('div','card'),b=el('div','body');c.appendChild(b);
+      b.appendChild(el('p','tag',d[1]+' · '+d[2]));
+      var big=el('div','');big.style.cssText='font-size:2.4rem;line-height:1;margin:6px 0';big.textContent=icon;b.appendChild(big);
+      b.appendChild(el('h3','',(typical?'Usually ':'')+hi+'° / '+lo+'°C'));
+      b.appendChild(el('p','small',desc+' · '+rain+'% chance of rain'));
+      return c;}
+    function typical(){var g=$('wxDays');g.textContent='';days.forEach(function(d){g.appendChild(card(d,'☀️','Typically sunny and dry','32','23','10',true));});
+      $('wxNote').textContent='Typical late-January conditions, not a forecast. Sunset is around 6:20pm, so the race starts in the last light at about 29°C. The live forecast appears here from about 13 January.';}
+    var first=Date.parse('2027-01-29T00:00:00+07:00');
+    if(first-Date.now()>16*864e5){typical();return;}
+    typical();
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=12.849&longitude=100.905&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FBangkok&start_date=2027-01-29&end_date=2027-01-31')
+    .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(w){
+      var g=$('wxDays');g.textContent='';var t=w.daily;
+      days.forEach(function(d,i){var k=WMO[t.weather_code[i]]||['🌤️','Fair'];
+        g.appendChild(card(d,k[0],k[1],Math.round(t.temperature_2m_max[i]),Math.round(t.temperature_2m_min[i]),t.precipitation_probability_max[i]==null?'–':t.precipitation_probability_max[i],false));});
+      $('wxLede').textContent='Live forecast for Na Jomtien. It updates every time you load the page.';
+      $('wxNote').textContent='Forecast from Open-Meteo. Sunset is around 6:20pm; the race starts at 5:45pm.';
+    }).catch(function(){});
+  })();
+
+  /* ---------- Wiring ---------- */
+  function refresh(){guests=window.pattayaGuests||guests;renderPred();renderPhotos();}
+  document.addEventListener('pattaya-guests',refresh);
+  (token?api('GET','api/admin').then(function(){admin=true;},function(){}):Promise.resolve()).then(function(){loadPred();loadPhotos();});
+})();
+</script>
+
 </body>
 </html>

@@ -4,6 +4,8 @@ services:
     restart: unless-stopped
     environment:
       - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - RACE_START=${RACE_START:-2027-01-30T17:45:00+07:00}
+      - SOI6_REVEAL=${SOI6_REVEAL:-2027-01-31T16:30:00+07:00}
     volumes:
       - rsvp-data:/data
   caddy:
