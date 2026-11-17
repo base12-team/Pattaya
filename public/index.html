@@ -813,7 +813,7 @@ footer{padding:32px 0 56px;color:var(--muted);font-size:.85rem;border-top:1px so
       var left=VANS.seats-riders.length;
       var c=document.createElement('div');c.className='card van';var b=document.createElement('div');b.className='body';c.appendChild(b);
       var h=document.createElement('h3');h.textContent=v.name+' · '+v.time;b.appendChild(h);
-      var p=document.createElement('p');p.textContent=v.pickup+' ';var a=document.createElement('a');a.href=v.map;a.textContent='Map';p.appendChild(a);b.appendChild(p);
+      var p=document.createElement('p');p.textContent=v.pickup+' ';if(v.map){var a=document.createElement('a');a.href=v.map;a.textContent='Map';p.appendChild(a);}b.appendChild(p);
       var st=document.createElement('p');st.className='seats'+(left<=0?' full':'');st.textContent=left<=0?'Full':left+' of '+VANS.seats+' seats left';b.appendChild(st);
       if(riders.length){var ul=document.createElement('ul');riders.forEach(function(g){var li=document.createElement('li');li.textContent=g.name;ul.appendChild(li);});b.appendChild(ul);}
       box.appendChild(c);

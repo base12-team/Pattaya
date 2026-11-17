@@ -1,9 +1,9 @@
 {
   "seats": 10,
   "vans": [
-    {"id": "van1", "name": "Van 1", "pickup": "Phrom Phong BTS (EmQuartier side), Sukhumvit Rd", "time": "9:30am", "map": "https://www.google.com/maps/search/?api=1&query=Phrom+Phong+BTS+Station+Bangkok"},
-    {"id": "van2", "name": "Van 2", "pickup": "Asok BTS (Terminal 21 entrance), Sukhumvit Rd", "time": "9:30am", "map": "https://www.google.com/maps/search/?api=1&query=Terminal+21+Asok+Bangkok"},
-    {"id": "van3", "name": "Van 3", "pickup": "Ari BTS, exit 3", "time": "9:15am", "map": "https://www.google.com/maps/search/?api=1&query=Ari+BTS+Station+Bangkok"}
+    {"id": "van1", "name": "Van 1", "pickup": "Pickup point TBC", "time": "time TBC"},
+    {"id": "van2", "name": "Van 2", "pickup": "Pickup point TBC", "time": "time TBC"},
+    {"id": "van3", "name": "Van 3", "pickup": "Pickup point TBC", "time": "time TBC"}
   ],
-  "returnNote": "Sunday: all vans leave the Sanctuary of Truth at 4:30pm and drop off at the same points."
+  "returnNote": "Pickup points and times will be confirmed nearer the date. Grab a seat now and you'll keep it. Sunday: all vans leave the Sanctuary of Truth at 4:30pm."
 }
