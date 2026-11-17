@@ -1,5 +1,10 @@
 {
   "guests": [
-    {"name": "Sam", "status": "going", "role": "running", "agreed": true}
+    {
+      "name": "Sam",
+      "status": "going",
+      "role": "running",
+      "agreed": true
+    }
   ]
 }
