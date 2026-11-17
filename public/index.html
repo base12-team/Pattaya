@@ -287,7 +287,6 @@ main img,section img,.gallery img,.gallery>*{border-radius:0!important}
     <a href="#deals">Hotel deals</a>
     <a href="#rsvp">RSVP</a>
     <a href="#predictions">Predictions</a>
-    <a href="#photos">Photos</a>
     <a href="#weather">Weather</a>
     <a href="#links">Links</a>
   </div>
@@ -743,46 +742,6 @@ main img,section img,.gallery img,.gallery>*{border-radius:0!important}
   </div>
 </section>
 
-<section id="photos" style="background:#F1EBDD">
-  <div class="wrap">
-    <p class="eyebrow">Photo wall</p>
-    <h2>Everyone's photos, in one place</h2>
-    <p class="lede">Add your photos from the boat, the race and the weekend. The Soi 6 album stays locked until the vans leave on Sunday at 4:30pm.</p>
-    <form id="photoForm" class="calc" style="margin-top:22px" novalidate>
-      <div class="grid g3" style="gap:14px">
-        <div><label for="phBy">Your name</label><select id="phBy" class="field"></select></div>
-        <div><label for="phAlbum">Album</label>
-          <select id="phAlbum" class="field"><option value="boat">The boat</option><option value="race">The race</option><option value="soi6">Soi 6 (locked until Sunday)</option><option value="other">Everything else</option></select></div>
-        <div><label for="phCaption">Caption (optional)</label><input id="phCaption" class="field" maxlength="80"></div>
-      </div>
-      <label for="phFile" style="margin-top:14px">Photos</label>
-      <input id="phFile" type="file" accept="image/*" multiple class="field" style="padding:10px">
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
-        <button class="btn" type="submit" id="phSubmit">Upload</button>
-        <span class="small" id="phMsg" role="status"></span>
-      </div>
-    </form>
-    <div class="seg" id="albumTabs" role="group" aria-label="Albums" style="margin-top:22px">
-      <button type="button" data-a="all" aria-pressed="true">All</button>
-      <button type="button" data-a="boat" aria-pressed="false">The boat</button>
-      <button type="button" data-a="race" aria-pressed="false">The race</button>
-      <button type="button" data-a="soi6" aria-pressed="false">Soi 6</button>
-      <button type="button" data-a="other" aria-pressed="false">Everything else</button>
-    </div>
-    <div id="soi6Lock" class="notice" hidden style="margin-top:14px"></div>
-    <svg class="hanger" viewBox="0 0 120 220" aria-hidden="true"><rect x="6" y="6" width="108" height="208" rx="10" fill="#C2462B"/><circle cx="60" cy="40" r="20" fill="#F6F0E6"/><text x="60" y="96" text-anchor="middle" font-family="Barlow Condensed, Impact, sans-serif" font-weight="700" font-size="24" fill="#fff">DO NOT</text><text x="60" y="122" text-anchor="middle" font-family="Barlow Condensed, Impact, sans-serif" font-weight="700" font-size="24" fill="#fff">DISTURB</text><line x1="24" y1="138" x2="96" y2="138" stroke="#F6F0E6" stroke-width="2"/><text x="60" y="162" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="600" font-size="12" fill="#FBEDE6">Soi 6 album</text><text x="60" y="180" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="600" font-size="12" fill="#FBEDE6">opens Sun 4:30pm</text></svg>
-    <div class="wall" id="wall"></div>
-    <p class="small" id="wallEmpty">No photos yet. Be the first.</p>
-    <div id="lightbox" class="editor" hidden role="dialog" aria-modal="true" aria-label="Photo">
-      <figure style="margin:0;max-width:960px;width:100%;text-align:center">
-        <img id="lbImg" alt="" style="max-width:100%;max-height:80vh;border-radius:12px;margin:0 auto">
-        <figcaption id="lbCap" style="color:#fff;margin-top:10px"></figcaption>
-        <button class="btn" type="button" id="lbClose" style="margin-top:12px">Close</button>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <section id="weather">
   <div class="wrap">
     <p class="eyebrow">29–31 January · Na Jomtien</p>
@@ -1107,51 +1066,8 @@ main img,section img,.gallery img,.gallery>*{border-radius:0!important}
   $('resForm').addEventListener('submit',function(e){e.preventDefault();var m=$('resMsg');m.textContent='Saving…';
     api('POST','api/results',{runner:$('rRunner').value,time:$('rTime').value.trim()}).then(function(){m.textContent='Nice run. Time added.';$('rTime').value='';return loadPred();}).catch(function(x){m.textContent=x.message;});});
 
-  /* ---------- Photo wall ---------- */
-  var PH={photos:[],soi6Open:false,soi6Count:0},album='all';
-  var albumName={boat:'The boat',race:'The race',soi6:'Soi 6',other:'Everything else'};
-  function renderPhotos(){
-    opts($('phBy'),names(),'Choose your name');
-    var wall=$('wall');wall.textContent='';
-    var list=PH.photos.filter(function(p){return album==='all'||p.album===album;}).slice().reverse();
-    list.forEach(function(p){
-      var b=el('button','');b.type='button';b.setAttribute('aria-label','Open photo by '+p.by);
-      var img=new Image();img.loading='lazy';img.src='photos/'+p.id+'.jpg';img.alt=p.caption||('Photo by '+p.by);b.appendChild(img);
-      b.appendChild(el('span','cap',(p.caption?p.caption+' · ':'')+p.by+' · '+albumName[p.album]));
-      b.addEventListener('click',function(){openLb(p);});wall.appendChild(b);
-    });
-    $('wallEmpty').hidden=list.length>0||(album==='soi6'&&!PH.soi6Open);
-    var lock=$('soi6Lock');
-    if(!PH.soi6Open&&(album==='all'||album==='soi6')){
-      lock.hidden=false;var r=new Date(PH.soi6Reveal||'2027-01-31T16:30:00+07:00');
-      lock.textContent='🔒 Soi 6 album: '+PH.soi6Count+(PH.soi6Count===1?' photo':' photos')+' waiting. Unlocks Sunday 31 Jan at 4:30pm, when the vans leave for Bangkok. What happens on Soi 6 stays hidden until then.';
-    } else lock.hidden=true;
-  }
-  function loadPhotos(){return api('GET','api/photos').then(function(d){PH=d;renderPhotos();}).catch(function(){});}
-  [].forEach.call(document.querySelectorAll('#albumTabs button'),function(b){b.addEventListener('click',function(){
-    album=b.getAttribute('data-a');[].forEach.call(document.querySelectorAll('#albumTabs button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});renderPhotos();});});
-  function shrink(file){return new Promise(function(ok,bad){
-    var u=URL.createObjectURL(file),img=new Image();
-    img.onload=function(){var s=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',0.82));};
-    img.onerror=function(){URL.revokeObjectURL(u);bad(new Error('Couldn’t read '+file.name+'. Try a JPEG or PNG.'));};img.src=u;});}
-  $('photoForm').addEventListener('submit',function(e){e.preventDefault();
-    var m=$('phMsg'),files=[].slice.call($('phFile').files||[]),by=$('phBy').value,al=$('phAlbum').value,cap=$('phCaption').value.trim();
-    if(!by){m.textContent='Choose your name first.';return;}if(!files.length){m.textContent='Choose a photo.';return;}
-    $('phSubmit').disabled=true;var done=0,hidden=0;
-    files.reduce(function(pr,f){return pr.then(function(){m.textContent='Uploading '+(done+1)+' of '+files.length+'…';
-      return shrink(f).then(function(img){return api('POST','api/photos',{by:by,album:al,caption:cap,image:img});}).then(function(r){done++;if(r.hidden)hidden++;});});},Promise.resolve())
-    .then(function(){m.textContent=done+(done===1?' photo':' photos')+' added'+(hidden?'. Soi 6 photos stay hidden until Sunday 4:30pm.':'.');$('phFile').value='';$('phCaption').value='';})
-    .catch(function(x){m.textContent=x.message;}).then(function(){$('phSubmit').disabled=false;loadPhotos();});});
-  var lb=$('lightbox'),cur=null;
-  function openLb(p){cur=p;$('lbImg').src='photos/'+p.id+'.jpg';$('lbImg').alt=p.caption||('Photo by '+p.by);$('lbCap').textContent=(p.caption?p.caption+' · ':'')+p.by;
-    var del=$('lbDel');if(del)del.hidden=!admin;lb.hidden=false;$('lbClose').focus();}
-  function closeLb(){lb.hidden=true;$('lbImg').src='';}
-  $('lbClose').addEventListener('click',closeLb);lb.addEventListener('click',function(e){if(e.target===lb)closeLb();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)closeLb();});
-  var del=el('button','btn','Delete photo');del.type='button';del.id='lbDel';del.hidden=true;del.style.cssText='margin:12px 0 0 8px;background:#9B2C2C';
-  $('lbClose').parentNode.appendChild(del);
-  del.addEventListener('click',function(){if(!cur)return;api('DELETE','api/photos/'+cur.id).then(function(){closeLb();loadPhotos();}).catch(function(x){alert(x.message);});});
+  function renderPhotos(){}
+  function loadPhotos(){}
 
   /* ---------- Weather ---------- */
   (function(){
