@@ -47,6 +47,7 @@ function clean(g) {
     role: ROLES.includes(g.role) ? g.role : '',
     note: typeof g.note === 'string' ? g.note.replace(/\s+/g, ' ').trim().slice(0, 60) : '',
     van: VAN_IDS.includes(g.van) ? g.van : '',
+    agreed: g.agreed === true,
     updatedAt: g.updatedAt || null,
   };
 }
@@ -122,6 +123,7 @@ async function api(req, res, pathname) {
     if (!g) return send(res, 400, { error: 'Please enter your name.' });
     if (!['going', 'maybe', 'no'].includes(body.status)) return send(res, 400, { error: 'Pick going, maybe or can’t make it.' });
     if (g.status === 'no') { g.role = ''; g.van = ''; }
+    if (g.status !== 'no' && !g.agreed) return send(res, 400, { error: 'Please tick the box to confirm you’ll book your own hotel.' });
     if (g.van && g.van !== 'own') {
       const taken = board.guests.filter((x) => x.van === g.van && !sameName(x.name, g.name) && x.status !== 'no').length;
       if (taken >= VANS.seats) return send(res, 400, { error: 'That van is full. Pick another one.' });
@@ -155,7 +157,7 @@ async function api(req, res, pathname) {
     } else {
       let body;
       try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Bad request' }); }
-      const g = clean(Object.assign({ name }, body, { name, updatedAt: new Date().toISOString() }));
+      const g = clean(Object.assign({ name }, i >= 0 ? board.guests[i] : {}, body, { name, updatedAt: new Date().toISOString() }));
       if (!g) return send(res, 400, { error: 'Bad request' });
       if (i >= 0) board.guests[i] = g; else board.guests.push(g);
     }

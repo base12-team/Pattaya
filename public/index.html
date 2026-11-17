@@ -208,7 +208,26 @@ h3{font-weight:600;letter-spacing:.01em}
 .brand{background:var(--green);color:#fff!important;padding:6px 12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;font-family:'Barlow Condensed',Impact,sans-serif}
 footer{background:var(--green)!important;color:#FBEDE6!important}
 footer a{color:#fff!important}
-h1{font-size:clamp(2.6rem,6vw,4.6rem)}
+h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
+.hero .hero-img{margin-top:22px}
+
+/* hero mosaic */
+.mosaic{display:grid;grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:230px 230px;gap:10px;margin-top:22px}
+.mosaic .tile{position:relative;overflow:hidden;display:block;color:#fff;text-decoration:none;background:var(--green)}
+.mosaic .tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.mosaic .tile:hover img{transform:scale(1.04)}
+.mosaic .t-yacht{grid-row:span 2}
+.mosaic .lab{position:absolute;left:0;bottom:0;background:var(--green);padding:6px 12px 7px;font:700 1.15rem/1.05 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;letter-spacing:.03em}
+.mosaic .lab b{display:block;font-weight:600;font-size:.78rem;letter-spacing:.1em;opacity:.85}
+.mosaic .t-run{display:flex;align-items:center;justify-content:center}
+.mosaic .t-run .big{font:700 clamp(4rem,9vw,6.5rem)/1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.01em;position:relative;z-index:1;margin-bottom:28px}
+.mosaic .t-run .route{position:absolute;inset:10% 6% 30% 6%;width:88%;height:60%;opacity:.55}
+.mosaic .t-run .lab{background:#2B1F1A}
+@media (max-width:760px){
+  .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:220px 150px 150px}
+  .mosaic .t-yacht{grid-column:span 2;grid-row:auto}
+  .mosaic .lab{font-size:1rem}
+}
 </style>
 </head>
 <body>
@@ -234,10 +253,20 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
 
 <header class="hero">
   <div class="wrap">
-    <div class="hero-img"><img src="img/yacht-slide.webp" alt="The Heliotrope catamaran anchored off an island with its water slide"></div>
-    <h1>Run. Sail. Soi 6.</h1>
+    <h1>Pattaya trip: a yacht day, a 10K run and a party on Soi 6</h1>
     <p class="meta">29 – 31 January 2027 · Pattaya, Thailand</p>
-    <p class="lede">A long weekend for 23 friends at The Standard, Pattaya Na Jomtien: a private sunset yacht, the Pong Mabprachan 10K, a night out on Soi 6, and the Sanctuary of Truth on the way home to reflect on our questionable life choices.</p>
+    <p class="lede">A long weekend at The Standard, Pattaya Na Jomtien: a private sunset yacht, the Pong Mabprachan 10K, a night out on Soi 6, and the Sanctuary of Truth on the way home to reflect on our questionable life choices.</p>
+    <div class="mosaic" aria-label="The weekend at a glance">
+      <a class="tile t-yacht" href="#boat"><img src="img/yacht-slide.webp" alt="The Heliotrope catamaran with its water slide"><span class="lab"><b>Fri · 4pm</b>Sunset yacht</span></a>
+      <a class="tile t-run" href="#itinerary">
+        <svg viewBox="0 0 200 120" aria-hidden="true" class="route"><path d="M14 96 C40 40, 70 108, 100 62 S150 20, 186 40" fill="none" stroke="#F7E2D9" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 11"/><circle cx="14" cy="96" r="7" fill="#F7E2D9"/><path d="M186 40 v-30 h18 l-6 7 l6 7 h-18" fill="#F7E2D9"/></svg>
+        <span class="big">10K</span>
+        <span class="lab"><b>Sat · 5:45pm</b>Pong Mabprachan Run</span>
+      </a>
+      <a class="tile t-soi6" href="#saturday"><img src="img/soi6-avarice.jpg" alt="Neon bar signs on Soi 6"><span class="lab"><b>Sat · late</b>Soi 6</span></a>
+      <a class="tile t-temple" href="#saturday"><img src="img/sanctuary.jpg" alt="The carved wooden Sanctuary of Truth by the sea"><span class="lab"><b>Sun · 2:30pm</b>Sanctuary of Truth</span></a>
+      <a class="tile t-hotel" href="#stay"><img src="img/hotel-aerial.jpg" alt="The Standard, Pattaya Na Jomtien from above"><span class="lab"><b>Fri – Sun</b>The Standard</span></a>
+    </div>
     <div class="stats">
       <div class="stat"><b>≈ ฿15,600</b><span>all-in per person, sharing</span></div>
       <div class="stat"><b>≈ ฿9,700</b><span>fixed costs per person</span></div>
@@ -529,8 +558,9 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
       <div class="grid g2" style="gap:16px">
         <div>
           <label for="who">Your name</label>
-          <select id="who" style="width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font:inherit;background:#fff"></select>
-          <input id="whoNew" placeholder="Type your name" maxlength="40" hidden style="width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;margin-top:8px">
+          <input id="who" list="whoList" class="field" placeholder="First name, as friends know you" maxlength="40" autocomplete="given-name">
+          <datalist id="whoList"></datalist>
+          <span class="small" style="display:block;margin-top:4px">Already replied? Type the same name to change your answer.</span>
         </div>
         <div>
           <label for="rnote">Note (optional)</label>
@@ -558,6 +588,10 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
           <option value="own">Making my own way</option>
         </select>
       </div>
+      <label id="agreeWrap" style="display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-weight:500;cursor:pointer">
+        <input type="checkbox" id="rAgree" style="width:20px;height:20px;margin-top:3px;accent-color:var(--green);flex:none">
+        <span>I confirm that I understand Sam will book the boat, but I will book my own hotel for Friday 29 to Sunday 31 January 2027.</span>
+      </label>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px">
         <button class="btn" type="submit" id="rSubmit">Send my RSVP</button>
         <span class="small" id="rMsg" role="status"></span>
@@ -621,11 +655,13 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
         <select id="pStake" class="field">
           <option value="">Choose your forfeit</option>
           <option>Buy the first round on Soi 6</option>
-          <option>Buy everyone's post-race beer</option>
-          <option>Sing the first karaoke song</option>
-          <option>Run the van playlist home on Sunday</option>
-          <option>Buy the coconut round at the temple</option>
-          <option>Wear a medal saying "I guessed wrong" all night</option>
+          <option>Do a shot of the winner’s choosing</option>
+          <option>Sing the first karaoke song (winner picks)</option>
+          <option>Buy everyone’s hangover coffees on Sunday</option>
+          <option>Winner runs the van playlist home, no skips</option>
+          <option>Buy the winner’s dinner</option>
+          <option>Post a photo the winner chooses on Instagram</option>
+          <option>Give a one-minute speech on the winner’s genius</option>
           <option value="custom">Something else…</option>
         </select>
         <input id="pStakeCustom" class="field" placeholder="Your forfeit" maxlength="60" hidden style="margin-top:8px">
@@ -793,6 +829,7 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
       document.getElementById(counts[k]).textContent=c[k];
       if(!c[k]){var e=document.createElement('p');e.className='empty';e.textContent='No one yet';document.getElementById(cols[k]).appendChild(e);}
     });
+    document.getElementById(cols.none).parentNode.hidden=!c.none;
     var ct=document.getElementById('counts');ct.textContent='';
     [c.going+' going',run+' running',c.maybe+' maybe',c.no+' can’t make it'].forEach(function(t){var s=document.createElement('span');s.textContent=t;ct.appendChild(s);});
     if(window.pattayaSetPeople)window.pattayaSetPeople(c.going);
@@ -800,32 +837,30 @@ h1{font-size:clamp(2.6rem,6vw,4.6rem)}
     renderVans();
   }
 
-  // name picker
-  var who=document.getElementById('who'),whoNew=document.getElementById('whoNew');
+  // name: typed, with suggestions from people who've already replied
+  var who=document.getElementById('who');
   function fillWho(){
-    var cur=who.value;who.textContent='';
-    var o=document.createElement('option');o.value='';o.textContent='Choose your name';who.appendChild(o);
-    guests.slice().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(g){var op=document.createElement('option');op.value=g.name;op.textContent=g.name;who.appendChild(op);});
-    var nw=document.createElement('option');nw.value='__new';nw.textContent='I’m not on the list';who.appendChild(nw);
-    if(cur)who.value=cur;
+    var dl=document.getElementById('whoList');dl.textContent='';
+    guests.slice().sort(function(a,b){return a.name.localeCompare(b.name);}).forEach(function(g){var op=document.createElement('option');op.value=g.name;dl.appendChild(op);});
   }
   var form={status:'',role:''};
   function press(id,attr,val){document.querySelectorAll('#'+id+' button').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute(attr)===val?'true':'false');});}
   who.addEventListener('change',function(){
-    whoNew.hidden=who.value!=='__new';if(!whoNew.hidden)whoNew.focus();
-    var g=guests.find(function(x){return x.name===who.value;});
-    if(g){form.status=g.status==='none'?'':g.status;form.role=g.role||'';document.getElementById('rnote').value=g.note||'';press('rStatus','data-s',form.status);press('rRole','data-r',form.role);document.getElementById('rVan').value=g.van||'';}
+    var g=guests.find(function(x){return x.name.toLowerCase()===who.value.trim().toLowerCase();});
+    if(g){document.getElementById('rAgree').checked=!!g.agreed;form.status=g.status==='none'?'':g.status;form.role=g.role||'';document.getElementById('rnote').value=g.note||'';press('rStatus','data-s',form.status);press('rRole','data-r',form.role);document.getElementById('rVan').value=g.van||'';}
   });
-  document.querySelectorAll('#rStatus button').forEach(function(b){b.addEventListener('click',function(){form.status=b.getAttribute('data-s');press('rStatus','data-s',form.status);document.getElementById('roleWrap').hidden=form.status==='no';document.getElementById('vanWrap').hidden=form.status==='no';});});
+  document.querySelectorAll('#rStatus button').forEach(function(b){b.addEventListener('click',function(){form.status=b.getAttribute('data-s');press('rStatus','data-s',form.status);document.getElementById('roleWrap').hidden=form.status==='no';document.getElementById('vanWrap').hidden=form.status==='no';document.getElementById('agreeWrap').hidden=form.status==='no';});});
   document.querySelectorAll('#rRole button').forEach(function(b){b.addEventListener('click',function(){form.role=b.getAttribute('data-r');press('rRole','data-r',form.role);});});
   var msg=document.getElementById('rMsg'),sub=document.getElementById('rSubmit');
   document.getElementById('rsvpForm').addEventListener('submit',function(e){
     e.preventDefault();
-    var name=who.value==='__new'?whoNew.value.trim():who.value;
-    if(!name){msg.textContent='Choose your name first.';return;}
+    var name=who.value.trim();
+    if(!name){msg.textContent='Type your name first.';return;}
     if(!form.status){msg.textContent='Say if you’re coming.';return;}
+    var agreed=document.getElementById('rAgree').checked;
+    if(form.status!=='no'&&!agreed){msg.textContent='Please tick the box to confirm you’ll book your own hotel.';return;}
     sub.disabled=true;msg.textContent='Sending…';
-    api('POST','api/rsvps',{name:name,status:form.status,role:form.status==='no'?'':form.role,note:document.getElementById('rnote').value,van:form.status==='no'?'':document.getElementById('rVan').value})
+    api('POST','api/rsvps',{name:name,agreed:agreed,status:form.status,role:form.status==='no'?'':form.role,note:document.getElementById('rnote').value,van:form.status==='no'?'':document.getElementById('rVan').value})
       .then(function(){msg.textContent='Thanks, '+name+'. You’re on the list.';return load();})
       .catch(function(err){msg.textContent=err.message;})
       .then(function(){sub.disabled=false;});
