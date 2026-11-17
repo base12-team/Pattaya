@@ -1,9 +1,9 @@
-# Auto-deploy to your Hetzner server on every push to main.
-# One-time setup in GitHub > Settings > Secrets and variables > Actions:
-#   HETZNER_HOST     server IP or hostname
-#   HETZNER_USER     SSH user (e.g. root or deploy)
+# Auto-deploy to the Hetzner server on every push to main.
+# Setup in GitHub > Settings > Secrets and variables > Actions:
+#   HETZNER_HOST     server IP (46.224.147.132)
+#   HETZNER_USER     SSH user (samantha)
 #   HETZNER_SSH_KEY  a private key whose public key is in that user's ~/.ssh/authorized_keys
-# and on the server, clone this repo to ~/pattaya-rsvp and create .env once (see README).
+# The app runs under pm2 as "pattaya" from ~/pattaya, behind nginx (see README).
 name: Deploy
 on:
   push:
@@ -20,6 +20,6 @@ jobs:
           username: ${{ secrets.HETZNER_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
-            cd ~/pattaya-rsvp
+            cd ~/pattaya
             git pull --ff-only
-            docker compose up -d --build
+            pm2 restart pattaya

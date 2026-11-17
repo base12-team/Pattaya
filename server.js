@@ -80,7 +80,7 @@ function isAdmin(req) {
 // simple per-IP rate limit: 20 writes per 10 minutes
 const hits = new Map();
 function rateLimited(req) {
-  const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  const ip = String(req.headers['x-real-ip'] || req.socket.remoteAddress || '').trim();
   const now = Date.now();
   const list = (hits.get(ip) || []).filter((t) => now - t < 10 * 60 * 1000);
   list.push(now);

@@ -73,3 +73,12 @@ ADMIN_TOKEN=test node server.js   # http://localhost:3000
 - **Sunset**: the sun in the hero rises from 16 Nov 2026 until 9:30am on 29 Jan 2027.
 
 To test the race-day features early, set `RACE_START` and `SOI6_REVEAL` in `.env` and restart.
+
+## Live setup on dev-server (pm2 + nginx, no Docker)
+
+The site runs at https://pattaya.samantics.space on the Hetzner server dev-server (46.224.147.132), alongside the other samantics.space apps.
+
+- One-time: `ssh samantha@46.224.147.132 'bash ~/pattaya/deploy/setup-server.sh'` (clone first if ~/pattaya doesn't exist), then `sudo certbot --nginx -d pattaya.samantics.space --redirect` for HTTPS.
+- Runs under pm2 as `pattaya` on port 3410; data in `~/pattaya-data`; admin token in `~/pattaya-data/admin-token`.
+- Pushes to main deploy automatically via `.github/workflows/deploy.yml` (git pull + `pm2 restart pattaya`).
+- Docker files are kept for anyone who wants the Docker route on a fresh server.
