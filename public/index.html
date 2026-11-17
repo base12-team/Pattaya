@@ -228,11 +228,45 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
   .mosaic .t-yacht{grid-column:span 2;grid-row:auto}
   .mosaic .lab{font-size:1rem}
 }
+
+/* big photo hero */
+.bigshot{position:relative;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px);overflow:hidden;color:#fff;display:flex;align-items:flex-end}
+.bigshot>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bigshot:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(20,12,8,.72) 100%)}
+.bigshot-text{position:relative;z-index:1;padding:0 4vw 6vh;max-width:900px}
+.bigshot h1{color:#fff;font-size:clamp(2.6rem,6.5vw,5.6rem);max-width:16ch;margin:0 0 10px;line-height:.95}
+.bigshot .meta{color:#fff;font-weight:600;margin:0 0 8px}
+.bigshot p{color:rgba(255,255,255,.92);font-size:1.08rem;max-width:62ch;margin:0}
+.badge-spin{position:absolute;z-index:1;right:4vw;top:10vh;width:150px;height:150px;transform:rotate(-12deg)}
+@media (prefers-reduced-motion:no-preference){.badge-spin text{animation:spin 24s linear infinite;transform-origin:100px 100px}@keyframes spin{to{transform:rotate(360deg)}}}
+.mosaic .t-run{flex-direction:column}
+.mosaic .t-run .tag10{position:relative;z-index:1;font:600 1.1rem 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;letter-spacing:.08em;margin:-26px 0 30px}
+/* stacked label menu */
+nav.stack{background:transparent;border:0;backdrop-filter:none;position:absolute;top:0;left:0;right:0}
+nav.stack .wrap{max-width:none;padding:18px 4vw}
+nav.stack a{background:#fff;color:var(--green);border-radius:0;text-transform:uppercase;font-weight:700;letter-spacing:.03em;font-size:1rem;min-height:34px;padding:4px 10px}
+nav.stack a:hover{background:var(--green);color:#fff}
+@media (min-width:1000px){
+  nav.stack .wrap{display:block;position:relative}
+  nav.stack .brand{position:absolute;left:4vw;top:18px;font-size:1.3rem;padding:8px 14px}
+  nav.stack a{display:table;margin:0 0 6px auto}
+  .bigshot{min-height:100vh;min-height:100svh}
+  .badge-spin{top:auto;bottom:8vh;right:calc(4vw + 190px)}
+}
+@media (max-width:999px){nav.stack{position:sticky;background:rgba(246,240,230,.95);border-bottom:1px solid var(--line)}nav.stack .wrap{gap:6px}.badge-spin{width:110px;height:110px}}
+/* round RSVP sticker */
+.sticker{position:fixed;right:22px;bottom:22px;z-index:20;width:92px;height:92px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font:700 1.45rem/1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.04em;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:transform .2s,opacity .3s}
+.sticker:hover{transform:scale(1.06) rotate(-6deg)}
+.sticker.off{opacity:0;pointer-events:none}
+/* Soi 6 door hanger */
+.hanger{display:none;width:96px;float:right;margin:-8px 0 0 16px;transform:rotate(6deg)}
+#soi6Lock:not([hidden])+.hanger{display:block}
+main img,section img,.gallery img,.gallery>*{border-radius:0!important}
 </style>
 </head>
 <body>
 
-<nav aria-label="Sections">
+<nav aria-label="Sections" class="stack">
   <div class="wrap">
     <span class="brand">Pattaya '27</span>
     <a href="#stay">Hotel</a>
@@ -251,16 +285,29 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap">
+<section class="bigshot" aria-label="Pattaya trip">
+  <img src="img/yacht-front.webp" alt="Friends lounging on the front nets of the Heliotrope at anchor">
+  <div class="bigshot-text">
     <h1>Pattaya trip: a yacht day, a 10K run and a party on Soi 6</h1>
     <p class="meta">29 – 31 January 2027 · Pattaya, Thailand</p>
-    <p class="lede">A long weekend at The Standard, Pattaya Na Jomtien: a private sunset yacht, the Pong Mabprachan 10K, a night out on Soi 6, and the Sanctuary of Truth on the way home to reflect on our questionable life choices.</p>
+    <p>A long weekend at The Standard, Pattaya Na Jomtien: a private sunset yacht, the Pong Mabprachan 10K, a night out on Soi 6, and the Sanctuary of Truth on the way home to reflect on our questionable life choices.</p>
+  </div>
+  <svg class="badge-spin" viewBox="0 0 200 200" aria-hidden="true">
+    <defs><path id="ring" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+    <circle cx="100" cy="100" r="96" fill="#F6F0E6"/>
+    <text font-family="Barlow Condensed, Impact, sans-serif" font-weight="700" font-size="22" fill="#C2462B"><textPath href="#ring" textLength="458" lengthAdjust="spacing">BOAT'S ON SAM • BED'S ON YOU • </textPath></text>
+    <g transform="translate(100 104)"><circle r="30" fill="#C2462B"/><rect x="-26" y="-9" width="22" height="13" rx="5" fill="#2B1F1A"/><rect x="4" y="-9" width="22" height="13" rx="5" fill="#2B1F1A"/><rect x="-6" y="-6" width="12" height="3" fill="#2B1F1A"/><path d="M-12 12 q12 10 24 0" stroke="#F6F0E6" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+  </svg>
+</section>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow" style="margin-top:8px">The weekend at a glance</p>
     <div class="mosaic" aria-label="The weekend at a glance">
       <a class="tile t-yacht" href="#boat"><img src="img/yacht-slide.webp" alt="The Heliotrope catamaran with its water slide"><span class="lab"><b>Fri · 4pm</b>Sunset yacht</span></a>
       <a class="tile t-run" href="#itinerary">
         <svg viewBox="0 0 200 120" aria-hidden="true" class="route"><path d="M14 96 C40 40, 70 108, 100 62 S150 20, 186 40" fill="none" stroke="#F7E2D9" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 11"/><circle cx="14" cy="96" r="7" fill="#F7E2D9"/><path d="M186 40 v-30 h18 l-6 7 l6 7 h-18" fill="#F7E2D9"/></svg>
-        <span class="big">10K</span>
+        <span class="big">10K</span><span class="tag10">Earn the night.</span>
         <span class="lab"><b>Sat · 5:45pm</b>Pong Mabprachan Run</span>
       </a>
       <a class="tile t-soi6" href="#saturday"><img src="img/soi6-avarice.jpg" alt="Neon bar signs on Soi 6"><span class="lab"><b>Sat · late</b>Soi 6</span></a>
@@ -319,8 +366,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
   <div class="wrap">
     <div class="head-row">
       <div>
-        <p class="eyebrow">Where we're staying</p>
-        <h2>The Standard, Pattaya Na Jomtien</h2>
+        <p class="eyebrow">Where we're staying · The Standard, Pattaya Na Jomtien</p>
+        <h2>Book Your Own Bed</h2>
         <p class="lede">A 1960s-inspired beachfront hotel in Na Jomtien with a beach club, away from downtown. Two nights, breakfast included.</p>
       </div>
       <a class="btn" href="https://www.hyatt.com/the-standard/en-US/utpsp-the-standard-pattaya-na-jomtien">View the hotel</a>
@@ -395,8 +442,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
   <div class="wrap">
     <div class="head-row">
       <div>
-        <p class="eyebrow">Friday · 4–8pm</p>
-        <h2>The Heliotrope</h2>
+        <p class="eyebrow">Friday · 4–8pm · The Heliotrope</p>
+        <h2>Sea You at Sunset</h2>
         <p class="lede">A private luxury catamaran for our sunset cruise, with captain and fuel included. Water slide, floating pool and paddleboards on board.</p>
       </div>
       <a class="btn" href="https://www.samboat.com/boat-rental/pattaya/yacht/159046">See the boat</a>
@@ -415,8 +462,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
   <div class="wrap grid g2">
     <div class="card">
       <div class="body">
-        <p class="eyebrow">Saturday night</p>
-        <h2>Soi 6</h2>
+        <p class="eyebrow">Saturday night · Soi 6</p>
+        <h2>What Happens on Soi 6</h2>
         <p>After the race, we head into central Pattaya to celebrate.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 20px 20px">
@@ -426,8 +473,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
     </div>
     <div class="card">
       <div class="body">
-        <p class="eyebrow">Sunday afternoon</p>
-        <h2>Sanctuary of Truth</h2>
+        <p class="eyebrow">Sunday afternoon · Sanctuary of Truth</p>
+        <h2>Sunday Reflection</h2>
         <p>Pattaya's hand-carved teak temple on the seafront, on the way home. ฿500 per adult.</p>
       </div>
       <div style="padding:0 20px 20px"><div style="border-radius:12px;overflow:hidden;aspect-ratio:3/2"><img src="img/sanctuary.jpg" alt="The carved teak Sanctuary of Truth on the seafront" style="width:100%;height:100%;object-fit:cover"></div></div>
@@ -550,8 +597,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
 
 <section id="rsvp" style="background:#F1EBDD">
   <div class="wrap">
-    <p class="eyebrow">RSVP</p>
-    <h2>Who's coming</h2>
+    <p class="eyebrow">RSVP · who's coming</p>
+    <h2>Lock It In</h2>
     <p class="lede">Pick your name, say if you're in, and whether you're running or cheering. Everyone sees the list update.</p>
 
     <form id="rsvpForm" class="calc" style="margin-top:22px" novalidate>
@@ -639,8 +686,8 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
 
 <section id="predictions">
   <div class="wrap">
-    <p class="eyebrow">Saturday 30 Jan · 10K</p>
-    <h2>Finish-time predictions</h2>
+    <p class="eyebrow">Saturday 30 Jan · 10K finish-time predictions</p>
+    <h2>Put Your Money Where Your Mouth Is</h2>
     <p class="lede">Guess any runner's finish time, your own included, and pick the forfeit you'll pay if you're the furthest off. Predictions close at the 5:45pm start. After the race, finishers add their time: the closest guess wins, and the furthest off pays up.</p>
     <div class="grid g2" style="margin-top:22px">
       <form id="predForm" class="calc" novalidate>
@@ -666,7 +713,7 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
         </select>
         <input id="pStakeCustom" class="field" placeholder="Your forfeit" maxlength="60" hidden style="margin-top:8px">
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px">
-          <button class="btn" type="submit" id="pSubmit">Lock it in</button>
+          <button class="btn" type="submit" id="pSubmit">Place my bet</button>
           <span class="small" id="pMsg" role="status"></span>
         </div>
       </form>
@@ -715,6 +762,7 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
       <button type="button" data-a="other" aria-pressed="false">Everything else</button>
     </div>
     <div id="soi6Lock" class="notice" hidden style="margin-top:14px"></div>
+    <svg class="hanger" viewBox="0 0 120 220" aria-hidden="true"><rect x="6" y="6" width="108" height="208" rx="10" fill="#C2462B"/><circle cx="60" cy="40" r="20" fill="#F6F0E6"/><text x="60" y="96" text-anchor="middle" font-family="Barlow Condensed, Impact, sans-serif" font-weight="700" font-size="24" fill="#fff">DO NOT</text><text x="60" y="122" text-anchor="middle" font-family="Barlow Condensed, Impact, sans-serif" font-weight="700" font-size="24" fill="#fff">DISTURB</text><line x1="24" y1="138" x2="96" y2="138" stroke="#F6F0E6" stroke-width="2"/><text x="60" y="162" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="600" font-size="12" fill="#FBEDE6">Soi 6 album</text><text x="60" y="180" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="600" font-size="12" fill="#FBEDE6">opens Sun 4:30pm</text></svg>
     <div class="wall" id="wall"></div>
     <p class="small" id="wallEmpty">No photos yet. Be the first.</p>
     <div id="lightbox" class="editor" hidden role="dialog" aria-modal="true" aria-label="Photo">
@@ -753,7 +801,7 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
 
 <section style="padding-top:0">
   <div class="wrap">
-    <h2>Before we lock it in</h2>
+    <h2>Before you go</h2>
     <div class="steps" style="margin-top:22px">
       <div class="step"><p>Tell Sam whether you're <strong style="color:var(--ink)">running or cheering</strong>.</p></div>
       <div class="step"><p><strong style="color:var(--ink)">Book your own room</strong> with your room preference. Amex Platinum holders book through Amex Travel for the extra benefits.</p></div>
@@ -766,6 +814,7 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
 <footer>
   <div class="wrap">Prices were checked 16 Nov 2026 and may change. The hotel price is the Booking.com/Trip.com rate for 29–31 Jan 2027. The yacht is $1,479 for 4 hours plus the $50.60 Flex Rate (free cancellation until 24 Jan). Vans, food and nightlife are estimates. Race details are from regis.run; Amex benefits from americanexpress.com.</div>
 </footer>
+<a href="#rsvp" class="sticker" id="sticker" aria-label="Go to RSVP">RSVP</a>
 
 <script>
 (function(){
@@ -1122,5 +1171,9 @@ h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:18ch;margin-top:8px}
 })();
 </script>
 
+<script>
+(function(){var st=document.getElementById('sticker'),r=document.getElementById('rsvp');if(!st||!r||!('IntersectionObserver' in window))return;
+new IntersectionObserver(function(e){st.classList.toggle('off',e[0].isIntersecting);},{threshold:.15}).observe(r);})();
+</script>
 </body>
 </html>
